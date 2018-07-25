@@ -51,9 +51,9 @@ export default {
 .sidebarIcon_list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
     align-content: flex-start;
     border-radius: 4px;
-    box-shadow: 0 0 300px #789799 inset;
     margin-top: 30px;
     overflow: auto;
 }

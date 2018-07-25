@@ -18,12 +18,12 @@ export default {
         align-items: center;
         color: #B0B6B6;
         text-decoration: none;    
-        width: 80px;
-        height: 80px;
-        line-height: 80px;
+        height: 30px;
+        outline: none;
         border-radius: 4px;
-        box-shadow: 0 0 80px #113236 inset;
-        margin: 20px;
-        padding: 4px 20px;
+        box-shadow: 0 0 60px #113236 inset;
+        margin-right: 10px;
+        margin-top: 10px;
+        padding: 0 1em;
     }
 </style>

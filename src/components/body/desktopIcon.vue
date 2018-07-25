@@ -19,6 +19,7 @@ export default {
     width: 120px;
     height: 120px;
     color: #B0B6B6;
+    outline: none;
     text-decoration: none;
     border-radius: 4px;
     box-shadow: 0 0 120px #113034 inset, 0 0 6px #489799;
