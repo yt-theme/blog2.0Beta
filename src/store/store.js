@@ -13,6 +13,8 @@ export default new Vuex.Store({
         desktopIconList: [],
         // sidebar icon
         sidebarIconList: [],
+        // window title
+        windowItem: [],
     },
     mutations: {
         requestMenuData (state) {
@@ -38,10 +40,15 @@ export default new Vuex.Store({
         },
         requestSidebarIconList (state) {
             axios.post(reqUrl + 'getSidebarIconList/').then((res)=> {
-                console.log(res)
                 if (res.data.length>0) {
                     state.sidebarIconList = res.data
                 }
+            })
+        },
+        addWindow (state, name, label) {
+            state.windowItem.push({
+                component: name,
+                label: label
             })
         }
     }

@@ -7,7 +7,7 @@
 
 <script>
 export default {
-    props: ['url', 'label', 'src']
+    props: ['url', 'label', 'img']
 }
 </script>
 
