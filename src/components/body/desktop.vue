@@ -1,6 +1,6 @@
 <template>
     <div class="desktop_container">
-        <DesktopIcon v-for="i in this.$store.state.desktopIconList" :label="i.label" :img="i.img" :url="i.url"></DesktopIcon>
+        <DesktopIcon v-for="i in this.$store.state.desktopIconList" :label="i.label" :img="i.img" :url="i.url" :id="i.id"></DesktopIcon>
     </div>
 </template>
 

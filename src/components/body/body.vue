@@ -19,22 +19,11 @@ export default {
     },
     data () {
         return {
-            // windowItem: []
+
         }
     },
     methods: {
-        addWindow () {
-            // this.windowItem.push({
-            //     component: name,
-            //     label: label
-            // })
-            // console.log(this.windowItem)
-            let obj = {
-                'component': 'window',
-                'label': '333'
-            }
-            this.$store.commit('addWindow', obj)
-        }
+
     }
 }
 </script>

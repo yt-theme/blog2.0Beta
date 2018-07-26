@@ -15,6 +15,8 @@ export default new Vuex.Store({
         sidebarIconList: [],
         // window title
         windowItem: [],
+        // window data
+        windowData: [],
     },
     mutations: {
         requestMenuData (state) {
@@ -46,18 +48,40 @@ export default new Vuex.Store({
             })
         },
         addWindow (state, obj) {
-            state.windowItem.push({
-                'component': obj.component,
-                'label': obj.label
+            let tag = true
+            for (let i=0;i<state.windowItem.length;i++) {
+                if (state.windowItem[i]['id'] == obj.id) {
+                    tag = false
+                }
+            }
+            if (tag) {
+                let id = new Date().getTime()
+                state.windowItem.push({
+                    'component': obj.component,
+                    'label': obj.label,
+                    'id': obj.id
+                })
+            }
+        },
+        requestWindowContent (state, id) {
+            var params = new URLSearchParams()
+            params.append('id',id)
+            axios.post(reqUrl + 'getWindowContent/', params).then((res)=> {
+                if (res.data) {
+                    // for (let i=0;i<state.windowData.length;i++) {
+                    //     if (state.windowData[i]['id'] == id) {
+                    //         state.windowData.splice(i,1,res.data)
+                    //     } else {                            
+                            state.windowData.push(res.data)
+                    //     }
+                    // }
+                }
             })
-            // window id
-            let tim = new Date().getTime()
-            state.windowItem[state.windowItem.length - 1].id = tim
         },
         deleteWindow (state, id) {
             for (let i=0;i<state.windowItem.length;i++) {
                 if (state.windowItem[i]['id'] == id) {
-                    state.windowItem.splice(i, 1)
+                    state.windowItem.splice(i, 1, '')
                 }
             }
         }

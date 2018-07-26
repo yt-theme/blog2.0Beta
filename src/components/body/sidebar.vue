@@ -46,13 +46,14 @@ export default {
 .sidebar_nav_container {
     display: block;
     border-radius: 4px;
-    box-shadow: 0 0 300px #789799 inset;
+    box-shadow: 0 0 300px #113236 inset;
 }
 .sidebarIcon_list {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: flex-start;
+    text-shadow: 0 0 5px #000;
     border-radius: 4px;
     margin-top: 30px;
     overflow: auto;

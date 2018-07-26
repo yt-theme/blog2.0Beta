@@ -2,16 +2,27 @@
 <template>
   <div @click="handleClick" :style="{'z-index': zIndex}" class="ProjectTab-container window" ref="ProjectT">
       <div @mousedown="tabHandleMouseDown($event)" class="ProjectTab-container-header">{{label}}
-          <i @click="deleteWindow(id, $event)"></i>
+          <i @click="deleteWindow($event)"></i>
       </div>
       <div class="divBody">
+          <template v-for="i in this.$store.state.windowData">
+              <template v-if="i.id == id">
+                {{ i.id }}
+                <h1>
+                    {{i.data[0].h1}}
+                </h1>
+                <p>
+                    {{i.data[0].content}}
+                </p>
+              </template>
+          </template>
       </div>
   </div>
 </template>
 <script>
 export default {
   name: 'ProjectTab',
-  props: ['label', 'id'],
+  props: ['label','id'],
   data () {
     return {
         zIndex: 99,
@@ -49,10 +60,13 @@ export default {
         }
         this.zIndex = 100
     },
-    deleteWindow: function (id, e) {
+    deleteWindow: function (e) {
         e.preventDefault()
-        this.$store.commit('deleteWindow', id)
+        this.$store.commit('deleteWindow', this.id)
     }
+  },
+  created () {
+
   }
 }
 </script>
@@ -60,7 +74,7 @@ export default {
 .ProjectTab-container {
   display: flex;
   justify-content: center;
-  padding-top: 50px;
+  padding-top: 33px;
   position: absolute;
   left: 10%;
   /* width: 12vw; */
@@ -108,9 +122,11 @@ export default {
   margin-bottom: 2px;
 }
 .divBody {
-  width: 279px;
+  width: 100%;
   position: relative;
-  margin: 0 auto;
+  text-shadow: 0 0 6px #333;
+  padding: 0 6px;
+  overflow: auto;
 }
 .searchRes {
   float: left;
