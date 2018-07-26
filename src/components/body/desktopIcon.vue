@@ -1,5 +1,5 @@
 <template>
-    <div class="desktopIcon_container" :href="url">
+    <div class="desktopIcon_container" @click="addWindow(label)" :href="url">
         <img :src="img"/>
         <span>{{label}}</span>
     </div>
@@ -8,6 +8,20 @@
 <script>
 export default {
     props: ['label', 'img', 'url'],
+    methods: {
+        addWindow (label) {
+            // this.windowItem.push({
+            //     component: name,
+            //     label: label
+            // })
+            // console.log(this.windowItem)
+            let obj = {
+                'component': 'window',
+                'label': label
+            }
+            this.$store.commit('addWindow', obj)
+        }
+    }
 }
 </script>
 

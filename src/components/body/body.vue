@@ -1,9 +1,9 @@
 <template>
     <div class="body_container">
-        <div class="test" @click="addWindow"></div>
+        <!-- <div class="test" @click="addWindow"></div> -->
         <Desktop></Desktop>
         <Sidebar></Sidebar>
-        <component v-for="i in this.$store.state.windowItem" :is="i.component" :label="i.label"></component>
+        <component v-for="i in this.$store.state.windowItem" :is="i.component" :label="i.label" :id="i.id"></component>
     </div>
 </template>
 
@@ -23,13 +23,17 @@ export default {
         }
     },
     methods: {
-        addWindow (name, label) {
+        addWindow () {
             // this.windowItem.push({
             //     component: name,
             //     label: label
             // })
             // console.log(this.windowItem)
-            this.$store.commit('addWindow','window')
+            let obj = {
+                'component': 'window',
+                'label': '333'
+            }
+            this.$store.commit('addWindow', obj)
         }
     }
 }
@@ -43,10 +47,10 @@ export default {
     width: 100vw;
     height: calc(100vh - 33px);
 }
-.test {
+/* .test {
     position: absolute;
     width: 100px;
     height: 100px;
     background-color: #666;
-}
+} */
 </style>

@@ -1,15 +1,17 @@
 <!-- can move -->
 <template>
   <div @click="handleClick" :style="{'z-index': zIndex}" class="ProjectTab-container window" ref="ProjectT">
-      <div @mousedown="tabHandleMouseDown($event)" class="ProjectTab-container-header">{{label}}</div>
-      <div class="searchBox">
+      <div @mousedown="tabHandleMouseDown($event)" class="ProjectTab-container-header">{{label}}
+          <i @click="deleteWindow(id, $event)"></i>
+      </div>
+      <div class="divBody">
       </div>
   </div>
 </template>
 <script>
 export default {
   name: 'ProjectTab',
-  props: ['label'],
+  props: ['label', 'id'],
   data () {
     return {
         zIndex: 99,
@@ -45,7 +47,11 @@ export default {
                 wind[i].style.zIndex = 1
             }
         }
-        this.zIndex = this.zIndex + 1
+        this.zIndex = 100
+    },
+    deleteWindow: function (id, e) {
+        e.preventDefault()
+        this.$store.commit('deleteWindow', id)
     }
   }
 }
@@ -56,8 +62,9 @@ export default {
   justify-content: center;
   padding-top: 50px;
   position: absolute;
-  width: 12vw;
-  min-width: 300px;
+  left: 10%;
+  /* width: 12vw; */
+  min-width: 600px;
   height: 50vh;
   min-height: 180px;
   border: 3px solid #113337;
@@ -69,13 +76,25 @@ export default {
 .ProjectTab-container-header {
   position: absolute;
   top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  height: 3%;
-  min-height: 25px;
+  min-height: 29px;
   background-color: #113337;
   cursor: move;
   text-align: center;
   color: #B0B6B7;
+  padding: 3px 6px;
+}
+.ProjectTab-container-header> i {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #489799;
+    cursor: pointer;
 }
 .search> input {
   min-width: 279px;
@@ -88,7 +107,7 @@ export default {
   border-radius: 4px;
   margin-bottom: 2px;
 }
-.searchBox {
+.divBody {
   width: 279px;
   position: relative;
   margin: 0 auto;

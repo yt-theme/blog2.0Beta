@@ -45,11 +45,21 @@ export default new Vuex.Store({
                 }
             })
         },
-        addWindow (state, name, label) {
+        addWindow (state, obj) {
             state.windowItem.push({
-                component: name,
-                label: label
+                'component': obj.component,
+                'label': obj.label
             })
+            // window id
+            let tim = new Date().getTime()
+            state.windowItem[state.windowItem.length - 1].id = tim
+        },
+        deleteWindow (state, id) {
+            for (let i=0;i<state.windowItem.length;i++) {
+                if (state.windowItem[i]['id'] == id) {
+                    state.windowItem.splice(i, 1)
+                }
+            }
         }
     }
 })
