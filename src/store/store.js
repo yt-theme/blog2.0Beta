@@ -16,7 +16,9 @@ export default new Vuex.Store({
         // window title
         windowItem: [],
         // window data
-        windowData: [],
+        windowData: {
+            
+        },
     },
     mutations: {
         requestMenuData (state) {
@@ -63,19 +65,14 @@ export default new Vuex.Store({
                 })
             }
         },
-        requestWindowContent (state, id) {
+        // window data
+        requestWindowContent: (state, id) => {
             var params = new URLSearchParams()
             params.append('id',id)
             axios.post(reqUrl + 'getWindowContent/', params).then((res)=> {
-                if (res.data) {
-                    // for (let i=0;i<state.windowData.length;i++) {
-                    //     if (state.windowData[i]['id'] == id) {
-                    //         state.windowData.splice(i,1,res.data)
-                    //     } else {                            
-                            state.windowData.push(res.data)
-                    //     }
-                    // }
-                }
+                let resId = res.data['id']
+                state.windowData[id] = res.data
+                state.windowData = Object.assign({}, state.windowData)
             })
         },
         deleteWindow (state, id) {
@@ -84,6 +81,28 @@ export default new Vuex.Store({
                     state.windowItem.splice(i, 1, '')
                 }
             }
+            let tag = true
+            for (let i=0;i<state.windowItem.length;i++) {
+                if (state.windowItem[i] != '') {
+                    tag = false
+                }
+            }
+            if (tag) {
+                this.state.windowData = {
+                    
+                }
+            }
+        }
+    },
+    actions: {
+        addWindow (context,obj) {
+            context.commit('addWindow',obj)
+        },
+        requestWindowContent (context,id) {
+            context.commit('requestWindowContent',id)
+        },
+        deleteWindow (context,id) {
+            context.commit('deleteWindow',id)
         }
     }
 })

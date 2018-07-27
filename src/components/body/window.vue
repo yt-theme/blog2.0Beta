@@ -5,8 +5,8 @@
           <i @click="deleteWindow($event)"></i>
       </div>
       <div class="divBody">
-          <template v-for="i in this.$store.state.windowData">
-              <template v-if="i.id == id">
+          <template v-m v-for="i in this.$store.state.windowData">
+              <div v-if="i.id == id">
                 {{ i.id }}
                 <h1>
                     {{i.data[0].h1}}
@@ -14,7 +14,7 @@
                 <p>
                     {{i.data[0].content}}
                 </p>
-              </template>
+              </div>
           </template>
       </div>
   </div>
@@ -58,11 +58,12 @@ export default {
                 wind[i].style.zIndex = 1
             }
         }
-        this.zIndex = 100
+        this.zIndex = 99
     },
     deleteWindow: function (e) {
         e.preventDefault()
-        this.$store.commit('deleteWindow', this.id)
+        // this.$store.commit('deleteWindow', this.id)
+        this.$store.dispatch('deleteWindow', this.id)
     }
   },
   created () {
@@ -80,7 +81,7 @@ export default {
   /* width: 12vw; */
   min-width: 600px;
   height: 50vh;
-  min-height: 180px;
+  min-height: 500px;
   border: 3px solid #113337;
   background-color: #489799;
   overflow: auto; /* 加上overflow鼠标离开事件源神奇不影响事件生存 */
