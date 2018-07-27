@@ -2,7 +2,7 @@
 <template>
   <div @click="handleClick" :style="{'z-index': zIndex}" class="ProjectTab-container window" ref="ProjectT">
       <div @mousedown="tabHandleMouseDown($event)" class="ProjectTab-container-header">{{label}}
-          <i @click="deleteWindow($event)"></i>
+          <i title="close the window" @click="deleteWindow($event)"></i>
       </div>
       <div class="divBody">
           <template v-m v-for="i in this.$store.state.windowData">
@@ -110,12 +110,18 @@ export default {
   padding: 3px 6px;
 }
 .ProjectTab-container-header> i {
-    display: block;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: #489799;
-    cursor: pointer;
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #489799;
+  cursor: pointer;
+  box-shadow: 0 0 14px #489799;
+}
+.ProjectTab-container-header> i:hover {
+  box-shadow: 0 0 14px #ac453e;
+  background-color: #ac453e;
+  transition: all 1s;
 }
 .search> input {
   min-width: 279px;

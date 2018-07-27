@@ -36,6 +36,13 @@ export default {
 </script>
 
 <style>
+@keyframes desktopIconShadow {
+    0% {box-shadow: 0 0 7px #113337;background-color: #113034;}
+    15% {box-shadow: 0 0 27px #B0B6B6;background-color: #113034;}
+    25% {box-shadow: 0 0 27px #B0B6B6;background-color: #113034;}
+    50% {box-shadow: 0 0 27px #B0B6B6; background-color: #113034;}
+    100% {box-shadow: 0 0 7px #113337;background-color: #113034;}
+}
 .desktopIcon_container {
     display: flex;
     flex-direction: column;
@@ -50,6 +57,9 @@ export default {
     box-shadow: 0 0 120px #113034 inset, 0 0 6px #489799;
     margin: 10px;
     cursor: pointer;
+}
+.desktopIcon_container:hover {
+    animation: desktopIconShadow 1s infinite;
 }
 .desktopIcon_container> img {
     width: 65px;

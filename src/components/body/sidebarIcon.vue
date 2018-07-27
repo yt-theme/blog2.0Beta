@@ -12,6 +12,13 @@ export default {
 </script>
 
 <style scoped>
+    @keyframes sidebarIconShadow {
+        0% {box-shadow: 0 0 27px #113337 inset,0 0 0px #113337 inset;}
+        25% {box-shadow: 0 0 27px #113337 inset,0 0 100px #ebd15f inset;}
+        50% {box-shadow: 0 0 27px #B0B6B6 inset,0 0 27px #29814b inset;}
+        75% {box-shadow: 0 0 27px #B0B6B6 inset,0 0 100px #e78e3b inset;}
+        100% {box-shadow: 0 0 27px #113337 inset,0 0 0px #e44439 inset;}
+    }
     .sidebarIcon_container {
         display: flex;
         justify-content: center;
@@ -25,5 +32,8 @@ export default {
         margin-right: 10px;
         margin-top: 10px;
         padding: 0 1em;
+    }
+    .sidebarIcon_container:hover {
+        animation: sidebarIconShadow 4s infinite;
     }
 </style>

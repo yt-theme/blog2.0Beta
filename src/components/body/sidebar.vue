@@ -26,6 +26,11 @@ export default {
 </script>
 
 <style scoped>
+@keyframes sidebarListShadow {
+    0% {box-shadow: 0 0 27px #B0B6B6 inset;}
+    50% {box-shadow: 0 0 27px #113337 inset;}
+    100% {box-shadow: 0 0 27px #B0B6B6 inset;}
+}
 .sidebar_container {
     width: calc(10vw - 20px);
     min-width: 309px;
@@ -35,23 +40,34 @@ export default {
     background-color: rgba(176,182,182,0.3);
     padding: 10px;
 }
+.sidebar_container> ul {
+    list-style: none;
+}
 .sidebar_container> ul> li {
     line-height: 3;
-    margin-left: 1.8em;
+    border-radius: 9px;
+    box-shadow: 0 0 27px #B0B6B6 inset;
+    margin-bottom: 6px;
+    cursor: pointer;
+}
+.sidebar_container> ul> li:hover {
+    /* box-shadow: 0 0 27px #113337 inset; */
+    /* transition: all 1s; */
+    animation: sidebarListShadow 1s infinite;
 }
 .sidebar_container> ul> li> a {
     color: #B0B6B6;
     text-shadow: 0 0 5px #000;
+    padding: 0 1.8em;
 }
 .sidebar_nav_container {
     display: block;
     border-radius: 4px;
-    box-shadow: 0 0 300px #113236 inset;
+    /* box-shadow: 0 0 300px #113236 inset; */
 }
 .sidebarIcon_list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
     align-content: flex-start;
     text-shadow: 0 0 5px #000;
     border-radius: 4px;
