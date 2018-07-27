@@ -7,13 +7,19 @@
       <div class="divBody">
           <template v-m v-for="i in this.$store.state.windowData">
               <div v-if="i.id == id">
-                {{ i.id }}
-                <h1>
-                    {{i.data[0].h1}}
-                </h1>
-                <p>
-                    {{i.data[0].content}}
-                </p>
+                documentID -- {{ i.id }}
+                <hr/>
+<!-- type no1 -->
+                <template v-if="i.contentType == 'web'">
+                  <h3>{{i.data[0].h1}}</h3>
+                  <div v-html="i.data[0].content"></div>
+                </template>
+<!-- type no2 -->
+                <template v-if="i.contentType == 'txt'">
+                  <h1>{{i.data[0].h1}}</h1>
+                  <p>{{i.data[0].content}}</p>
+                </template>
+                
               </div>
           </template>
       </div>
@@ -128,6 +134,11 @@ export default {
   text-shadow: 0 0 6px #333;
   padding: 0 6px;
   overflow: auto;
+}
+.divBody hr {
+  border: 1px groove #1C3539;
+  margin: 6px 0;
+  box-shadow: 0 0 1px #1C3539;
 }
 .searchRes {
   float: left;
