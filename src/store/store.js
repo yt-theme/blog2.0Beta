@@ -19,6 +19,10 @@ export default new Vuex.Store({
         windowData: {
             
         },
+        // dialogSidePop show
+        sidebarPopShow: false,
+        sidebarPopSelectId: '',
+        sidebarPopData: {'id': '', 'content': ['loading']}
     },
     mutations: {
         requestMenuData (state) {
@@ -92,6 +96,21 @@ export default new Vuex.Store({
                     
                 }
             }
+        },
+        toggleSidebarPop (state, bool) {
+            state.sidebarPopShow = bool
+        },
+        setSidebarPopSelectId (state, id) {
+            state.sidebarPopSelectId = id
+        },
+        requestSidebarPopContent (state, id) {
+            state.sidebarPopData = {'id': '', 'content': ['loading']}
+            var params = new URLSearchParams()
+            params.append('id',id)
+            axios.post(reqUrl + 'getSidebarPopContent/', params).then((res)=> {
+                state.sidebarPopData = res.data
+                state.sidebarPopData = Object.assign({}, state.sidebarPopData)
+            })
         }
     },
     actions: {
@@ -103,6 +122,16 @@ export default new Vuex.Store({
         },
         deleteWindow (context,id) {
             context.commit('deleteWindow',id)
+        },
+        // sidebarPop show
+        toggleSidebarPop (context, bool) {
+            context.commit('toggleSidebarPop', bool)
+        },
+        setSidebarPopSelectId (context, id) {
+            context.commit('setSidebarPopSelectId', id)
+        },
+        requestSidebarPopContent (context, id) {
+            context.commit('requestSidebarPopContent', id)
         }
     }
 })

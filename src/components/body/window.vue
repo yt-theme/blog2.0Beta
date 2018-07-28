@@ -7,7 +7,7 @@
       <div class="divBody">
           <template v-m v-for="i in this.$store.state.windowData">
               <div v-if="i.id == id">
-                documentID -- {{ i.id }}
+                documentID -- {{ i.id ? i.id : 'loading...' }}
                 <hr/>
 <!-- type no1 -->
                 <template v-if="i.contentType == 'web'">
@@ -119,8 +119,8 @@ export default {
   box-shadow: 0 0 14px #489799;
 }
 .ProjectTab-container-header> i:hover {
-  box-shadow: 0 0 14px #ac453e;
-  background-color: #ac453e;
+  box-shadow: 0 0 14px #bb7570;
+  background-color: #bb7570;
   transition: all 1s;
 }
 .search> input {

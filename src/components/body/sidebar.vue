@@ -1,23 +1,36 @@
 <template>
     <div class="sidebar_container">
         <ul class="sidebar_nav_container">
-            <li><a>Update History</a></li>
-            <li><a>New Article</a></li>
-            <li><a>Article History</a></li>
-            <li><a>New Note</a></li>
-            <li><a>Note History</a></li>
+            <li @click="showPopAction('num0')"><a>Update History</a></li>
+            <li @click="showPopAction('num1')"><a>New Article</a></li>
+            <li @click="showPopAction('num2')"><a>Article History</a></li>
+            <li @click="showPopAction('num3')"><a>New Note</a></li>
+            <li @click="showPopAction('num4')"><a>Note History</a></li>
         </ul>
         <div class="sidebarIcon_list">
             <SidebarIcon v-for="i in this.$store.state.sidebarIconList" :label="i.label" :img="i.img" :url="i.url" ></SidebarIcon>
         </div>
+        <SidebarPop></SidebarPop>
     </div>
 </template>
 
 <script>
 import SidebarIcon from './sidebarIcon'
+import SidebarPop from './sidebarPop'
 export default {
     components: {
-        SidebarIcon
+        SidebarIcon,
+        SidebarPop
+    },
+    methods: {
+        showPopAction (id) {
+            // request data
+            this.$store.dispatch('requestSidebarPopContent', id)
+            // set id
+            this.$store.dispatch('setSidebarPopSelectId', id)
+            // show
+            this.$store.dispatch('toggleSidebarPop', true)
+        }
     },
     created () {
         this.$store.commit('requestSidebarIconList')
