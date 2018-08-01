@@ -19,11 +19,11 @@
                                 <span>Input Password</span>
                                 <button @click="checkSidebarPopEditPassword">Confirm</button>
                             </div>
-                            <input v-model="this.$store.state.sidebarPopPwdInputData" type="password"/>
+                            <input v-model="setSidebarPopPwdInputData" type="password"/>
                         </div>
                     </div>
                     <div class="article_header">
-                        <input class="article_title" placeholder="Title"/>
+                        <input class="article_title" placeholder="Title" maxlength="14"/>
                         <button class="article_submit">Submit</button>
                     </div>
                     <textarea class="article_main" placeholder="Your think"/>
@@ -41,8 +41,10 @@ export default {
             this.$store.dispatch('toggleSidebarPop', false)
         },
         checkSidebarPopEditPassword () {
-            this.$store.dispatch('checkSidebarPopEditPassword', this.pwdInputData)
-        }
+            let pwd = this.$store.state.sidebarPopPwdInputData
+            this.$store.dispatch('checkSidebarPopEditPassword', pwd)
+            this.$store.commit('clearSidebarPopPwdInputData')
+        },
     },
     computed: {
         titleTop () {
@@ -65,6 +67,14 @@ export default {
                     break;            
                 default:
                     break;
+            }
+        },
+        setSidebarPopPwdInputData: {
+            get () {
+                return this.$store.state.sidebarPopPwdInputData
+            },
+            set (dat) {
+                this.$store.commit('setSidebarPopPwdInputData', dat)
             }
         }
     },

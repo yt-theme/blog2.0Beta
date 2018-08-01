@@ -118,16 +118,21 @@ export default new Vuex.Store({
             var params = new URLSearchParams()
             params.append('pwd', dat)
             axios.post(reqUrl + 'getSidebarPopEditPasswordCheck/', params).then((res)=> {
-                if (res.data == 'true') {
-                    state.sidebarPopEditPasswordCheck = true
-                } else {
+                if (res.data.data == 'true') {
                     state.sidebarPopEditPasswordCheck = false
+                } else if (res.data.data == 'false') {
+                    state.sidebarPopEditPasswordCheck = true
                 }
-                console.log(res.data)
             })
         },
         sidebarPopEditPasswordTrue (state) {
             state.sidebarPopEditPasswordCheck = true
+        },
+        setSidebarPopPwdInputData (state, dat) {
+            state.sidebarPopPwdInputData = dat
+        },
+        clearSidebarPopPwdInputData (state) {
+            state.sidebarPopPwdInputData = ''
         }
     },
     actions: {
@@ -155,6 +160,6 @@ export default new Vuex.Store({
         },
         sidebarPopEditPasswordTrue (context) {
             context.commit('sidebarPopEditPasswordTrue')
-        }
+        },
     }
 })
