@@ -22,7 +22,9 @@ export default new Vuex.Store({
         // dialogSidePop show
         sidebarPopShow: false,
         sidebarPopSelectId: '',
-        sidebarPopData: {'id': '', 'content': ['loading']}
+        sidebarPopData: {'id': '', 'content': ['loading']},
+        sidebarPopPwdInputData: '',
+        sidebarPopEditPasswordCheck: true,
     },
     mutations: {
         requestMenuData (state) {
@@ -111,6 +113,21 @@ export default new Vuex.Store({
                 state.sidebarPopData = res.data
                 state.sidebarPopData = Object.assign({}, state.sidebarPopData)
             })
+        },
+        checkSidebarPopEditPassword (state, dat) {
+            var params = new URLSearchParams()
+            params.append('pwd', dat)
+            axios.post(reqUrl + 'getSidebarPopEditPasswordCheck/', params).then((res)=> {
+                if (res.data == 'true') {
+                    state.sidebarPopEditPasswordCheck = true
+                } else {
+                    state.sidebarPopEditPasswordCheck = false
+                }
+                console.log(res.data)
+            })
+        },
+        sidebarPopEditPasswordTrue (state) {
+            state.sidebarPopEditPasswordCheck = true
         }
     },
     actions: {
@@ -132,6 +149,12 @@ export default new Vuex.Store({
         },
         requestSidebarPopContent (context, id) {
             context.commit('requestSidebarPopContent', id)
+        },
+        checkSidebarPopEditPassword (context, dat) {
+            context.commit('checkSidebarPopEditPassword', dat)
+        },
+        sidebarPopEditPasswordTrue (context) {
+            context.commit('sidebarPopEditPasswordTrue')
         }
     }
 })

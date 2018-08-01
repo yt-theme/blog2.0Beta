@@ -30,6 +30,8 @@ export default {
             this.$store.dispatch('setSidebarPopSelectId', id)
             // show
             this.$store.dispatch('toggleSidebarPop', true)
+            this.$store.dispatch('sidebarPopEditPasswordTrue')
+            this.$store.state.sidebarPopPwdInputData = ''
         }
     },
     created () {

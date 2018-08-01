@@ -6,11 +6,28 @@
                 <h1>{{ titleTop }}</h1>
             </template>
             <div class="content_container">
-                <ul>
+                <ul v-if="this.$store.state.sidebarPopData['id'] !== 'num1'">
                     <li v-for="i in this.$store.state.sidebarPopData['content']">
                         {{i}}
                     </li>
                 </ul>
+                <!-- new article -->
+                <div class="article" v-if="this.$store.state.sidebarPopData['id'] == 'num1'">
+                    <div class="password_cover" v-if="this.$store.state.sidebarPopEditPasswordCheck">
+                        <div class="password_cover_container">
+                            <div style="display:flex;justify-content: space-between;align-items: center">
+                                <span>Input Password</span>
+                                <button @click="checkSidebarPopEditPassword">Confirm</button>
+                            </div>
+                            <input v-model="this.$store.state.sidebarPopPwdInputData" type="password"/>
+                        </div>
+                    </div>
+                    <div class="article_header">
+                        <input class="article_title" placeholder="Title"/>
+                        <button class="article_submit">Submit</button>
+                    </div>
+                    <textarea class="article_main" placeholder="Your think"/>
+                </div>
             </div>
         </div>
     </div>
@@ -22,6 +39,9 @@ export default {
         closePop () {
             // sidebarPop show
             this.$store.dispatch('toggleSidebarPop', false)
+        },
+        checkSidebarPopEditPassword () {
+            this.$store.dispatch('checkSidebarPopEditPassword', this.pwdInputData)
         }
     },
     computed: {
@@ -47,7 +67,7 @@ export default {
                     break;
             }
         }
-    }
+    },
 }
 </script>
 
@@ -91,6 +111,8 @@ export default {
     box-shadow: 0 0 2em #bb7570;
 }
 .body {
+    width: 100%;
+    height: 100%;
     padding: 20px;
     text-shadow: 0 0 14px #B0B6B6;
 }
@@ -98,6 +120,7 @@ export default {
     margin: 0 20px;
 }
 .content_container {
+    width: 100%;
     position: absolute;
     padding: 20px;
     height: calc(100% - 73px);
@@ -113,5 +136,90 @@ export default {
     word-wrap: break-word;
     word-break: break-all;
     margin-bottom: 11px;
+}
+.article {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.password_cover {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 40px);
+    height: 100%;
+    background-color: rgba(17,50,54,0.3);
+}
+.password_cover_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 16em;
+    background-color: #113236;
+    border-radius:4px;
+    padding: 23px 11px;
+}
+.password_cover_container button {
+    height: 2em;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    background-color: #489799;
+    cursor: pointer;
+    color: #113337;
+    padding: 0 11px;
+}
+.password_cover_container> input {
+    width: 100%;
+    height: 2em;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    background-color: #B0B6B6;
+    margin-top: 13px;
+    text-align: center;
+    padding: 0 11px;
+}
+.article_header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-right: 40px;
+}
+.article_title {
+    width: 15em;
+    height: 2em;
+    border: none;
+    outline: none;
+    text-shadow: 0 0 30px #489799;
+    background-color: #B0B6B6;
+    color: #113337;
+    border-radius: 4px;
+    padding: 0 11px;
+}
+.article_submit {
+    height: 2em;
+    outline: none;
+    background-color: #489799;
+    color: #113337;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    padding: 0 15px;
+}
+.article_main {
+    width: calc(100% - 40px);
+    height: calc(100% - 50px);
+    border-radius: 4px;
+    outline: none;
+    color: #113337;
+    background-color: #B0B6B6;
+    text-shadow: 0 0 14px #489799;
+    border: none;
+    resize: none;
+    margin-top: 6px;
+    padding: 11px;
 }
 </style>
