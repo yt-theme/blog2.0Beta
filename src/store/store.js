@@ -33,7 +33,8 @@ export default new Vuex.Store({
         // sidebarPop new article textarea
         VModelSidebarPopArticleTextareaData: '',
         // sidebarPop new article type
-        VModelSidebarPopArticleTypeData: 'html',
+        VModelSidebarPopArticleTypeData: 'web',
+        resultForNewArticle: '',
         // notifyPop show
         notifyPopShow: false,
         // notifyPop data
@@ -159,6 +160,12 @@ export default new Vuex.Store({
         VModelSidebarPopArticleTypeData (state, dat) {
             state.VModelSidebarPopArticleTypeData = dat
         },
+        submitNewArticle (state, dat) {
+            let qs = require('qs')
+            axios.post(reqUrl + 'getSubmitNewArticle/', qs.stringify(dat)).then((res)=> {
+                state.resultForNewArticle = res.data.res
+            })
+        },
         // close notifyPop
         closeNotifyPop (state) {
             state.notifyPopShow = false
@@ -210,6 +217,9 @@ export default new Vuex.Store({
         },
         setNotifyPopData (context, dat) {
             context.commit('setNotifyPopData', dat)
+        },
+        submitNewArticle (context, dat) {
+            context.commit('submitNewArticle', dat)
         }
     }
 })

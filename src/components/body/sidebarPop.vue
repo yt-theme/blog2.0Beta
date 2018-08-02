@@ -27,7 +27,7 @@
                         <div style="display:flex;align-items:center">
                             Type
                             <select v-model="VModelSidebarPopArticleTypeData">
-                                <option value="html" selected>html</option>
+                                <option value="web" selected>web</option>
                                 <option value="txt">txt</option>
                             </select>
                             <button class="article_submit" @click="submit">Submit</button>
@@ -54,6 +54,12 @@ export default {
         },
         submit () {
             if (this.$store.state.VModelSidebarPopArticleInputData) {
+                let dat = {
+                    'contentType': this.$store.state.VModelSidebarPopArticleTypeData,
+                    'h1': this.$store.state.VModelSidebarPopArticleInputData,
+                    'content': this.$store.state.VModelSidebarPopArticleTextareaData
+                }
+                this.$store.dispatch('submitNewArticle', dat)
                 return false
             } else {
                 this.$store.dispatch('showNotifyPop')
