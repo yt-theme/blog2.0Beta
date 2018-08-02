@@ -1,13 +1,16 @@
 <!-- can move -->
 <template>
   <div @click="handleClick" :style="{'z-index': zIndex}" class="ProjectTab-container window" ref="ProjectT">
-      <div @mousedown="tabHandleMouseDown($event)" class="ProjectTab-container-header">{{label}}
+      <div @mousedown="tabHandleMouseDown($event)" class="ProjectTab-container-header">{{label ? label : '&nbsp;'}}
           <i title="close the window" @click="deleteWindow($event)"></i>
       </div>
       <div class="divBody">
           <template v-m v-for="i in this.$store.state.windowData">
               <div v-if="i.id == id">
-                documentID -- {{ i.id ? i.id : 'loading...' }}
+                <div style="display: flex;justify-content:space-between;align-items:center">
+                  <span>documentID -- {{ i.id ? i.id : 'loading...' }}</span>
+                  <button class="button_edit" @click="articleToEdit('Edit -- ' + label + ' -- ' + i.id, i.id, i.data[0].h1, i.data[0].content, i.contentType)">Edit</button>
+                </div>
                 <hr/>
 <!-- type no1 -->
                 <template v-if="i.contentType == 'web'">
@@ -70,6 +73,34 @@ export default {
         e.preventDefault()
         // this.$store.commit('deleteWindow', this.id)
         this.$store.dispatch('deleteWindow', this.id)
+    },
+    articleToEdit: function (title, id, h1, content,type) {
+        this.$store.dispatch('setSidebarPoptitle', title)
+        // set edit id
+        if (id) {
+          this.$store.dispatch('set_windowEdit_id', id)
+        } else {
+          this.$store.dispatch('set_windowEdit_id', '')
+        }
+
+        let dat = {
+          'id': id,
+          'h1': h1,
+          'type': type,
+          'content': content
+        }
+        // add Data to sidebarPop
+        this.$store.dispatch('addDataSidebarPopEditArticle', dat)
+      
+        let popType = 'num1'
+        // request data
+        this.$store.dispatch('requestSidebarPopContent', popType)
+        // set id
+        this.$store.dispatch('setSidebarPopSelectId', popType)
+        // show
+        this.$store.dispatch('toggleSidebarPop', true)
+        this.$store.dispatch('sidebarPopEditPasswordTrue')
+        this.$store.commit('clearSidebarPopPwdInputData')
     }
   },
   created () {
@@ -122,6 +153,17 @@ export default {
   box-shadow: 0 0 14px #bb7570;
   background-color: #bb7570;
   transition: all 1s;
+}
+.button_edit {
+  height: 1.9em;
+  border: none;
+  background-color: #113337;
+  color: #b0b4b4;
+  text-shadow: 0 0 14px #B0B6B6;
+  outline: none;
+  border-radius: 4px;
+  padding: 0 11px;
+  cursor: pointer;
 }
 .search> input {
   min-width: 279px;

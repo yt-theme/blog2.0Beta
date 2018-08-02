@@ -3,7 +3,7 @@
         <i class="close" @click="closePop"></i>
         <div class="body">
             <template v-if="titleTop">
-                <h1>{{ titleTop }}</h1>
+                <h1>{{ this.$store.state.sidebarPoptitle ? this.$store.state.sidebarPoptitle : titleTop }}</h1>
             </template>
             <div class="content_container">
                 <ul v-if="this.$store.state.sidebarPopData['id'] !== 'num1'">
@@ -42,10 +42,13 @@
 
 <script>
 export default {
+    props: ['title'],
     methods: {
         closePop () {
             // sidebarPop show
             this.$store.dispatch('toggleSidebarPop', false)
+            // clear edit id
+            this.$store.dispatch('set_windowEdit_id', '')
         },
         checkSidebarPopEditPassword () {
             let pwd = this.$store.state.sidebarPopPwdInputData
@@ -55,6 +58,7 @@ export default {
         submit () {
             if (this.$store.state.VModelSidebarPopArticleInputData) {
                 let dat = {
+                    'id': this.$store.state.windowEdit_id,
                     'contentType': this.$store.state.VModelSidebarPopArticleTypeData,
                     'h1': this.$store.state.VModelSidebarPopArticleInputData,
                     'content': this.$store.state.VModelSidebarPopArticleTextareaData

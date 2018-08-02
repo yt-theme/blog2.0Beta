@@ -24,6 +24,9 @@ export default {
     },
     methods: {
         showPopAction (id) {
+            this.$store.dispatch('setSidebarPoptitle', '')
+            // clear edit id
+            this.$store.dispatch('set_windowEdit_id', '')
             // request data
             this.$store.dispatch('requestSidebarPopContent', id)
             // set id

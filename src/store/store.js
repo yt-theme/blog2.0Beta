@@ -23,6 +23,7 @@ export default new Vuex.Store({
             
         },
         // dialogSidePop show
+        sidebarPoptitle: '',
         sidebarPopShow: false,
         sidebarPopSelectId: '',
         sidebarPopData: {'id': '', 'content': ['loading']},
@@ -39,6 +40,7 @@ export default new Vuex.Store({
         notifyPopShow: false,
         // notifyPop data
         notifyPopData: 'err',
+        windowEdit_id: '',
     },
     mutations: {
         requestMenuData (state) {
@@ -114,12 +116,22 @@ export default new Vuex.Store({
             }
         },
         toggleSidebarPop (state, bool) {
+            // clear input
+            // state.VModelSidebarPopArticleInputData = '',
+            // state.VModelSidebarPopArticleTextareaData = '',
+            // state.VModelSidebarPopArticleTypeData = 'web',
+
             state.sidebarPopShow = bool
         },
         setSidebarPopSelectId (state, id) {
             state.sidebarPopSelectId = id
         },
         requestSidebarPopContent (state, id) {
+            // clear input
+            // state.VModelSidebarPopArticleInputData = '',
+            // state.VModelSidebarPopArticleTextareaData = '',
+            // state.VModelSidebarPopArticleTypeData = 'web',
+
             state.sidebarPopData = {'id': '', 'content': ['loading']}
             var params = new URLSearchParams()
             params.append('id',id)
@@ -139,6 +151,9 @@ export default new Vuex.Store({
                 }
             })
         },
+        setSidebarPoptitle (state, dat) {
+            state.sidebarPoptitle = dat
+        },
         sidebarPopEditPasswordTrue (state) {
             state.sidebarPopEditPasswordCheck = true
         },
@@ -147,6 +162,16 @@ export default new Vuex.Store({
         },
         clearSidebarPopPwdInputData (state) {
             state.sidebarPopPwdInputData = ''
+        },
+        // edit
+        addDataSidebarPopEditArticle (state, dat) {
+            state.VModelSidebarPopArticleInputData = dat.h1
+            state.VModelSidebarPopArticleTextareaData = dat.content
+            state.VModelSidebarPopArticleTypeData = dat.type
+        },
+        // edit id
+        set_windowEdit_id (state, id) {
+            state.windowEdit_id = id
         },
         // sidebarPop vmodel new article input
         VModelSidebarPopArticleInputData (state, dat) {
@@ -161,10 +186,7 @@ export default new Vuex.Store({
             state.VModelSidebarPopArticleTypeData = dat
         },
         submitNewArticle (state, dat) {
-            let qs = require('qs')
-            axios.post(reqUrl + 'getSubmitNewArticle/', qs.stringify(dat)).then((res)=> {
-                state.resultForNewArticle = res.data.res
-            })
+                state.resultForNewArticle = dat
         },
         // close notifyPop
         closeNotifyPop (state) {
@@ -197,6 +219,9 @@ export default new Vuex.Store({
         toggleSidebarPop (context, bool) {
             context.commit('toggleSidebarPop', bool)
         },
+        setSidebarPoptitle (context, dat) {
+            context.commit('setSidebarPoptitle', dat)
+        },
         setSidebarPopSelectId (context, id) {
             context.commit('setSidebarPopSelectId', id)
         },
@@ -209,6 +234,15 @@ export default new Vuex.Store({
         sidebarPopEditPasswordTrue (context) {
             context.commit('sidebarPopEditPasswordTrue')
         },
+        // edit
+        addDataSidebarPopEditArticle (context, dat) {
+            context.commit('addDataSidebarPopEditArticle', dat)
+            context.commit('set_windowEdit_id', dat.id)
+        },
+        // edit id
+        set_windowEdit_id (context, id) {
+            context.commit('set_windowEdit_id', id)
+        },
         closeNotifyPop (context) {
             context.commit('closeNotifyPop')
         },
@@ -219,7 +253,23 @@ export default new Vuex.Store({
             context.commit('setNotifyPopData', dat)
         },
         submitNewArticle (context, dat) {
-            context.commit('submitNewArticle', dat)
+            let qs = require('qs')
+            if (dat.id != '' || dat.id) {
+                axios.post(reqUrl + 'getSubmitEditArticle/', qs.stringify(dat)).then((res)=> {
+                    context.commit('submitNewArticle', res.data.res)
+                    context.commit('showNotifyPop')
+                    context.commit('setNotifyPopData', 'success')
+                    context.commit('requestDesktopIconList')
+                    console.log(res.data)
+                })
+            } else if (dat.id == '') {
+                axios.post(reqUrl + 'getSubmitNewArticle/', qs.stringify(dat)).then((res)=> {
+                    context.commit('submitNewArticle', res.data.res)
+                    context.commit('showNotifyPop')
+                    context.commit('setNotifyPopData', 'success')
+                    context.commit('requestDesktopIconList')
+                })
+            }
         }
     }
 })
