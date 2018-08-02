@@ -48,8 +48,8 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     color: #B0B6B6;
     outline: none;
     text-decoration: none;
@@ -62,8 +62,8 @@ export default {
     animation: desktopIconShadow 1s infinite;
 }
 .desktopIcon_container> img {
-    width: 65px;
-    height: 65px;
+    width: 75px;
+    height: 75px;
     margin-top: 14.1px;
 }
 .desktopIcon_container> span {

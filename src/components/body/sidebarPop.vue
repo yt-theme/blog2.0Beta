@@ -23,10 +23,17 @@
                         </div>
                     </div>
                     <div class="article_header">
-                        <input class="article_title" placeholder="Title" maxlength="14"/>
-                        <button class="article_submit">Submit</button>
+                        <input class="article_title" placeholder="Title" maxlength="14" v-model="VModelSidebarPopArticleInputData"/>
+                        <div style="display:flex;align-items:center">
+                            Type
+                            <select v-model="VModelSidebarPopArticleTypeData">
+                                <option value="html" selected>html</option>
+                                <option value="txt">txt</option>
+                            </select>
+                            <button class="article_submit" @click="submit">Submit</button>
+                        </div>
                     </div>
-                    <textarea class="article_main" placeholder="Your think"/>
+                    <textarea class="article_main" placeholder="Your think" v-model="VModelSidebarPopArticleTextareaData"/>
                 </div>
             </div>
         </div>
@@ -45,6 +52,14 @@ export default {
             this.$store.dispatch('checkSidebarPopEditPassword', pwd)
             this.$store.commit('clearSidebarPopPwdInputData')
         },
+        submit () {
+            if (this.$store.state.VModelSidebarPopArticleInputData) {
+                return false
+            } else {
+                this.$store.dispatch('showNotifyPop')
+                this.$store.dispatch('setNotifyPopData', 'Least Input Title')
+            }
+        }
     },
     computed: {
         titleTop () {
@@ -75,6 +90,30 @@ export default {
             },
             set (dat) {
                 this.$store.commit('setSidebarPopPwdInputData', dat)
+            }
+        },
+        VModelSidebarPopArticleInputData: {
+            get () {
+                return this.$store.state.VModelSidebarPopArticleInputData
+            },
+            set (dat) {
+                this.$store.commit('VModelSidebarPopArticleInputData', dat)
+            }
+        },
+        VModelSidebarPopArticleTextareaData: {
+            get () {
+                return this.$store.state.VModelSidebarPopArticleTextareaData
+            },
+            set (dat) {
+                this.$store.commit('VModelSidebarPopArticleTextareaData', dat)
+            }
+        },
+        VModelSidebarPopArticleTypeData: {
+            get () {
+                return this.$store.state.VModelSidebarPopArticleTypeData
+            },
+            set (dat) {
+                this.$store.commit('VModelSidebarPopArticleTypeData', dat)
             }
         }
     },
@@ -130,7 +169,7 @@ export default {
     margin: 0 20px;
 }
 .content_container {
-    width: 100%;
+    width: calc(100% - 40px);
     position: absolute;
     padding: 20px;
     height: calc(100% - 73px);
@@ -140,7 +179,6 @@ export default {
     list-style: none
 }
 .content_container ul> li {
-    width: 100%;
     line-height: 1.5;
     border-bottom: 1px solid #B0B6B6;
     word-wrap: break-word;
@@ -157,7 +195,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: calc(100% - 40px);
+    width: 100%;
     height: 100%;
     background-color: rgba(17,50,54,0.3);
 }
@@ -195,7 +233,21 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding-right: 40px;
+}
+.article_header select {
+    /* border: none; */
+    appearance: none;
+    outline: none;
+    width: 8em;
+    height: 2em;
+    border-radius: 4px;
+    background-color: #489799;
+    border: 1px solid #489799;
+    margin:0 11px;
+    padding: 0 11px;
+}
+.article_header select> option {
+    line-height: 2em;
 }
 .article_title {
     width: 15em;
@@ -220,7 +272,7 @@ export default {
     padding: 0 15px;
 }
 .article_main {
-    width: calc(100% - 40px);
+    width: 100%;
     height: calc(100% - 50px);
     border-radius: 4px;
     outline: none;
@@ -229,7 +281,8 @@ export default {
     text-shadow: 0 0 14px #489799;
     border: none;
     resize: none;
-    margin-top: 6px;
+    margin-top: 11px;
     padding: 11px;
+    overflow: auto;
 }
 </style>

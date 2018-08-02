@@ -2,6 +2,9 @@ import Vue from 'vue'
 import axios from 'axios'
 import Vuex from 'vuex'
 let reqUrl = 'http://192.168.0.141:8000/'
+// NotifyPop timer
+var timer
+
 Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
@@ -25,6 +28,16 @@ export default new Vuex.Store({
         sidebarPopData: {'id': '', 'content': ['loading']},
         sidebarPopPwdInputData: '',
         sidebarPopEditPasswordCheck: true,
+        // sidebarPop new article input
+        VModelSidebarPopArticleInputData: '',
+        // sidebarPop new article textarea
+        VModelSidebarPopArticleTextareaData: '',
+        // sidebarPop new article type
+        VModelSidebarPopArticleTypeData: 'html',
+        // notifyPop show
+        notifyPopShow: false,
+        // notifyPop data
+        notifyPopData: 'err',
     },
     mutations: {
         requestMenuData (state) {
@@ -133,6 +146,34 @@ export default new Vuex.Store({
         },
         clearSidebarPopPwdInputData (state) {
             state.sidebarPopPwdInputData = ''
+        },
+        // sidebarPop vmodel new article input
+        VModelSidebarPopArticleInputData (state, dat) {
+            state.VModelSidebarPopArticleInputData = dat
+        },
+        // sidebarPop vmodel new article textarea
+        VModelSidebarPopArticleTextareaData (state, dat) {
+            state.VModelSidebarPopArticleTextareaData = dat
+        },
+        // sidebarPop vmodel new article type
+        VModelSidebarPopArticleTypeData (state, dat) {
+            state.VModelSidebarPopArticleTypeData = dat
+        },
+        // close notifyPop
+        closeNotifyPop (state) {
+            state.notifyPopShow = false
+        },
+        // notifyPop true
+        showNotifyPop (state) {
+            if (timer) {
+                clearTimeout(timer)
+            }
+            state.notifyPopShow = true
+            timer = setTimeout(()=>{state.notifyPopShow = false}, 9000)
+        },
+        // notifyPop data
+        setNotifyPopData (state, dat) {
+            state.notifyPopData = dat
         }
     },
     actions: {
@@ -161,5 +202,14 @@ export default new Vuex.Store({
         sidebarPopEditPasswordTrue (context) {
             context.commit('sidebarPopEditPasswordTrue')
         },
+        closeNotifyPop (context) {
+            context.commit('closeNotifyPop')
+        },
+        showNotifyPop (context) {
+            context.commit('showNotifyPop')
+        },
+        setNotifyPopData (context, dat) {
+            context.commit('setNotifyPopData', dat)
+        }
     }
 })

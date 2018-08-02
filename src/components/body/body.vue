@@ -2,6 +2,7 @@
     <div class="body_container">
         <!-- <div class="test" @click="addWindow"></div> -->
         <Desktop></Desktop>
+        <notifyPop></notifyPop>
         <Sidebar></Sidebar>
         <component v-for="i in this.$store.state.windowItem" :is="i.component" :label="i.label" :id="i.id"></component>
     </div>
@@ -11,11 +12,13 @@
 import Desktop from './desktop'
 import Sidebar from './sidebar'
 import window from './window'
+import notifyPop from '../Public/notifyPop'
 export default {
     components: {
         Desktop,
         Sidebar,
-        window
+        window,
+        notifyPop
     },
     data () {
         return {
