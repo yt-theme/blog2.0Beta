@@ -85,6 +85,9 @@ export default {
     padding: 3px;
     cursor: pointer;
 }
+.desktopIcon_container_list> span {
+    text-shadow: 0 0 14px #B0B6B6;
+}
 .desktopIcon_container_list> span:nth-child(2) {
     min-width: 130px;
     margin-left: 11px;
