@@ -63,7 +63,7 @@ export default {
                     'contentType': this.$store.state.VModelSidebarPopArticleTypeData,
                     'h1': this.$store.state.VModelSidebarPopArticleInputData,
                     'content': this.$store.state.VModelSidebarPopArticleTextareaData,
-                    'date': timer.getFullYear() + '-' + (Number(timer.getMonth()) + 1) + '-' + timer.getDate() + ' week' + timer.getDay() + ' ' + timer.getHours() + ':' + timer.getMinutes() + ':' + timer.getSeconds()
+                    'date': timer.getFullYear() + '-' + (Number(timer.getMonth()) + 1) + '-' + timer.getDate() + ' week ' + timer.getDay() + ' ' + timer.getHours() + ':' + timer.getMinutes() + ':' + timer.getSeconds()
                 }
                 this.$store.dispatch('submitNewArticle', dat)
                 return false

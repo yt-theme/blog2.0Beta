@@ -4,7 +4,7 @@
         <span>{{label}}</span>
         <span>{{date}}</span>
     </div>
-    <div v-else-if="this.$store.state.setDesktopLayout == 1" class="desktopIcon_container" @click="addWindow(label,id)" :href="url">
+    <div v-else-if="this.$store.state.setDesktopLayout == 1" class="desktopIcon_container" @click="addWindow(label,id)" :href="url" :title="date">
         <img :src="img ? img : defaultImgUrl"/>
         <span>{{label}}</span>
     </div>

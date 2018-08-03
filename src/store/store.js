@@ -35,6 +35,8 @@ export default new Vuex.Store({
         VModelSidebarPopArticleTextareaData: '',
         // sidebarPop new article type
         VModelSidebarPopArticleTypeData: 'web',
+        // sidebarPop new article date
+        // VModelSidebarPopArticleDate: '',
         resultForNewArticle: '',
         // notifyPop show
         notifyPopShow: false,
@@ -42,7 +44,7 @@ export default new Vuex.Store({
         notifyPopData: 'err',
         windowEdit_id: '',
         // change desktop layout
-        setDesktopLayout: 0,
+        setDesktopLayout: 1,
 
     },
     mutations: {
@@ -190,6 +192,10 @@ export default new Vuex.Store({
         VModelSidebarPopArticleTypeData (state, dat) {
             state.VModelSidebarPopArticleTypeData = dat
         },
+        // sidebar vmode lnew article date
+        // VModelSidebarPopArticleDate (state, dat) {
+        //     state.VModelSidebarPopArticleDate = dat
+        // },
         submitNewArticle (state, dat) {
                 state.resultForNewArticle = dat
         },
@@ -212,7 +218,7 @@ export default new Vuex.Store({
         // change desktop layout
         changeDesktopLayout (state, type) {
             state.setDesktopLayout = type
-        }
+        },
     },
     actions: {
         addWindow (context,obj) {
