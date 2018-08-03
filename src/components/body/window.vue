@@ -101,6 +101,9 @@ export default {
         this.$store.dispatch('toggleSidebarPop', true)
         this.$store.dispatch('sidebarPopEditPasswordTrue')
         this.$store.commit('clearSidebarPopPwdInputData')
+
+        // close this window
+        this.$store.dispatch('deleteWindow', this.id)
     }
   },
   created () {

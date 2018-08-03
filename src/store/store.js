@@ -61,6 +61,8 @@ export default new Vuex.Store({
             axios.post(reqUrl + 'getDesktopIconList/').then((res)=> {
                 if (res.data.length>0) {
                     state.desktopIconList = res.data
+                    state.VModelSidebarPopArticleInputData = ''
+                    state.VModelSidebarPopArticleTextareaData = ''
                 }
             })
         },
@@ -260,7 +262,6 @@ export default new Vuex.Store({
                     context.commit('showNotifyPop')
                     context.commit('setNotifyPopData', 'success')
                     context.commit('requestDesktopIconList')
-                    console.log(res.data)
                 })
             } else if (dat.id == '') {
                 axios.post(reqUrl + 'getSubmitNewArticle/', qs.stringify(dat)).then((res)=> {
