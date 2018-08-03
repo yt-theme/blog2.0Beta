@@ -4,7 +4,7 @@
         <span>{{label}}</span>
         <span>{{date}}</span>
     </div>
-    <div v-else-if="this.$store.state.setDesktopLayout == 1" class="desktopIcon_container" @click="addWindow(label,id)" :href="url" :title="date">
+    <div v-else-if="this.$store.state.setDesktopLayout == 1" class="desktopIcon_container" @click="addWindow(label,id)" :href="url" :title="label + ' @ ' + date">
         <img :src="img ? img : defaultImgUrl"/>
         <span>{{label}}</span>
     </div>
@@ -42,11 +42,11 @@ export default {
 
 <style>
 @keyframes desktopIconShadow {
-    0% {box-shadow: 0 0 7px #113337;background-color: #113034;}
-    15% {box-shadow: 0 0 27px #B0B6B6;background-color: #113034;}
-    25% {box-shadow: 0 0 27px #B0B6B6;background-color: #113034;}
-    50% {box-shadow: 0 0 27px #B0B6B6; background-color: #113034;}
-    100% {box-shadow: 0 0 7px #113337;background-color: #113034;}
+    0% {box-shadow: 0 0 7px #113337;background-color: #113034; border-radius: 4px;}
+    15% {box-shadow: 0 0 27px #B0B6B6;background-color: #113034; border-radius: 4px;}
+    25% {box-shadow: 0 0 27px #B0B6B6;background-color: #113034; border-radius: 4px;}
+    50% {box-shadow: 0 0 27px #B0B6B6; background-color: #113034; border-radius: 4px;}
+    100% {box-shadow: 0 0 7px #113337;background-color: #113034; border-radius: 4px;}
 }
 .desktopIcon_container {
     display: flex;
@@ -54,7 +54,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     width: 130px;
-    height: 130px;
+    height: 135px;
     color: #B0B6B6;
     outline: none;
     text-decoration: none;
@@ -89,14 +89,18 @@ export default {
     text-shadow: 0 0 14px #B0B6B6;
 }
 .desktopIcon_container_list> span:nth-child(2) {
-    min-width: 130px;
+    min-width: 220px;
     margin-left: 11px;
 }
 .desktopIcon_container_list> span:nth-child(3) {
     width: unset;
+    margin-left: 33px;
 }
-.desktopIcon_container:hover {
+.desktopIcon_container:hover, .desktopIcon_container_list:hover {
     animation: desktopIconShadow 1s infinite;
+}
+.desktopIcon_container_list:hover img {
+    box-shadow: unset;
 }
 .desktopIcon_container> img {
     width: 75px;
@@ -104,10 +108,9 @@ export default {
     margin-top: 14.1px;
 }
 .desktopIcon_container> span {
-    height: 32px;
     text-shadow: 0 0 14px #B0B6B6;
     text-align: center;
-    padding: 6px;
-    margin-bottom: 6px;
+    margin-bottom: 11px;
+    padding: 0 6px;
 }
 </style>

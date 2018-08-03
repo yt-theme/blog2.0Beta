@@ -64,11 +64,9 @@ export default new Vuex.Store({
         },
         requestDesktopIconList (state) {
             axios.post(reqUrl + 'getDesktopIconList/').then((res)=> {
-                if (res.data.length>0) {
-                    state.desktopIconList = res.data
-                    state.VModelSidebarPopArticleInputData = ''
-                    state.VModelSidebarPopArticleTextareaData = ''
-                }
+                state.desktopIconList = res.data
+                state.VModelSidebarPopArticleInputData = ''
+                state.VModelSidebarPopArticleTextareaData = ''
             })
         },
         requestSidebarIconList (state) {
@@ -219,6 +217,10 @@ export default new Vuex.Store({
         changeDesktopLayout (state, type) {
             state.setDesktopLayout = type
         },
+        // sidebarPop history delete
+        sidebarPopHistoryDelete (state, id) {
+
+        }
     },
     actions: {
         addWindow (context,obj) {
@@ -288,6 +290,19 @@ export default new Vuex.Store({
         // change desktop layout
         changeDesktopLayout (context, type) {
             context.commit('changeDesktopLayout', type)
+        },
+        // sidebarPop history delete
+        sidebarPopHistoryDelete (context, id) {
+            var params = new URLSearchParams()
+            params.append('id',id)
+            axios.post(reqUrl + 'getDeleteSidebarPopHistory/', params).then((res)=> {
+                context.commit('sidebarPopHistoryDelete', id)
+                context.commit('showNotifyPop')
+                context.commit('setNotifyPopData', 'success')
+                context.commit('setSidebarPopSelectId', 'num0')
+                context.commit('requestSidebarPopContent', 'num0')
+                context.commit('requestDesktopIconList')
+            })
         }
     }
 })

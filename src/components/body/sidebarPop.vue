@@ -2,26 +2,34 @@
     <div v-if="this.$store.state.sidebarPopShow" class="sidebarPop_container">
         <i class="close" @click="closePop"></i>
         <div class="body">
+            <div class="password_cover" v-if="this.$store.state.sidebarPopEditPasswordCheck">
+                <div class="password_cover_container">
+                    <div style="display:flex;justify-content: space-between;align-items: center">
+                        <span>Input Password</span>
+                        <button @click="checkSidebarPopEditPassword">Confirm</button>
+                    </div>
+                    <input v-model="setSidebarPopPwdInputData" type="password"/>
+                </div>
+            </div>
             <template v-if="titleTop">
                 <h1>{{ this.$store.state.sidebarPoptitle ? this.$store.state.sidebarPoptitle : titleTop }}</h1>
             </template>
+            <div class="table_head">
+                <ul style="display: flex;" v-if="this.$store.state.sidebarPopData['id'] !== 'num1'">
+                    <li><span>NameList</span></li>
+                    <li><span>Date</span></li>
+                    <li><span>Id</span></li>
+                </ul>
+            </div>
             <div class="content_container">
                 <ul v-if="this.$store.state.sidebarPopData['id'] !== 'num1'">
                     <li v-for="i in this.$store.state.sidebarPopData['content']">
-                        {{i}}
+                        <span>{{i.label}}</span><span>{{i.date}}</span><span>{{i.id}}</span><button @click='sidebarPopHistoryDelete(i.id)'>Del</button>
                     </li>
                 </ul>
                 <!-- new article -->
                 <div class="article" v-if="this.$store.state.sidebarPopData['id'] == 'num1'">
-                    <div class="password_cover" v-if="this.$store.state.sidebarPopEditPasswordCheck">
-                        <div class="password_cover_container">
-                            <div style="display:flex;justify-content: space-between;align-items: center">
-                                <span>Input Password</span>
-                                <button @click="checkSidebarPopEditPassword">Confirm</button>
-                            </div>
-                            <input v-model="setSidebarPopPwdInputData" type="password"/>
-                        </div>
-                    </div>
+                    
                     <div class="article_header">
                         <input class="article_title" placeholder="Title" maxlength="14" v-model="VModelSidebarPopArticleInputData"/>
                         <div style="display:flex;align-items:center">
@@ -87,6 +95,9 @@ export default {
                 this.$store.dispatch('showNotifyPop')
                 this.$store.dispatch('setNotifyPopData', 'Least Input Title')
             }
+        },
+        sidebarPopHistoryDelete (id) {
+            this.$store.dispatch('sidebarPopHistoryDelete', id)
         }
     },
     computed: {
@@ -188,6 +199,7 @@ export default {
     box-shadow: 0 0 2em #bb7570;
 }
 .body {
+    position: relative;
     width: 100%;
     height: 100%;
     padding: 20px;
@@ -196,22 +208,49 @@ export default {
 .body> h1 {
     margin: 0 20px;
 }
+.table_head {
+    padding: 9px 0 9px 20px;
+}
+.table_head> ul {
+    list-style: none;
+    padding-left: 11px;
+}
 .content_container {
     width: calc(100% - 40px);
     position: absolute;
-    padding: 20px;
-    height: calc(100% - 73px);
+    padding: 0 20px;
+    height: calc(100% - 121px);
     overflow: auto;
 }
 .content_container ul {
-    list-style: none
+    display: block;
+    list-style: none;
+    overflow: auto;
 }
 .content_container ul> li {
     line-height: 1.5;
-    border-bottom: 1px solid #B0B6B6;
     word-wrap: break-word;
     word-break: break-all;
     margin-bottom: 11px;
+    padding: 0 11px;
+}
+.content_container ul> li:hover {
+    box-shadow: 0 0px 14px #B0B6B6 inset;
+    border-radius: 4px;
+}
+.content_container ul> li> span, .table_head> ul> li> span {
+    display: inline-block;
+    width: 230px;
+}
+.content_container ul> li> button {
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    color: #113236;
+    text-shadow: 0 0 14px #B0B6B6;
+    background-color: #bb7570;
+    padding: 3px 14px;
+    cursor: pointer;
 }
 .article {
     position: relative;
@@ -223,9 +262,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
     background-color: rgba(17,50,54,0.3);
+    z-index: 90;
 }
 .password_cover_container {
     display: flex;
@@ -234,6 +274,7 @@ export default {
     width: 16em;
     background-color: #113236;
     border-radius:4px;
+    box-shadow: 0 0 8px #B0B6B6;
     padding: 23px 11px;
 }
 .password_cover_container button {
@@ -301,7 +342,7 @@ export default {
 }
 .article_main {
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - 40px);
     border-radius: 4px;
     outline: none;
     color: #113337;

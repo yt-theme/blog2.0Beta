@@ -31,7 +31,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #CCD1D2;
+    background-color: rgba(204, 209, 210, 0.9);
     height: 33px;
     padding: 0 6px;
     color: #666;
