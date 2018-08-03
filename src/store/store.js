@@ -45,9 +45,13 @@ export default new Vuex.Store({
         windowEdit_id: '',
         // change desktop layout
         setDesktopLayout: 1,
-
     },
     mutations: {
+        clearSidebarPopData (state) {
+            state.VModelSidebarPopArticleInputData = ''
+            state.VModelSidebarPopArticleTextareaData = ''
+            state.VModelSidebarPopArticleTypeData = 'web'
+        },
         requestMenuData (state) {
             axios.get(reqUrl + 'getMenu/').then((res)=> {
                 if (res.data.length>0) {
@@ -132,11 +136,6 @@ export default new Vuex.Store({
             state.sidebarPopSelectId = id
         },
         requestSidebarPopContent (state, id) {
-            // clear input
-            // state.VModelSidebarPopArticleInputData = '',
-            // state.VModelSidebarPopArticleTextareaData = '',
-            // state.VModelSidebarPopArticleTypeData = 'web',
-
             state.sidebarPopData = {'id': '', 'content': ['loading']}
             var params = new URLSearchParams()
             params.append('id',id)
