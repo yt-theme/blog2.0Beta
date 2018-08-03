@@ -41,6 +41,9 @@ export default new Vuex.Store({
         // notifyPop data
         notifyPopData: 'err',
         windowEdit_id: '',
+        // change desktop layout
+        setDesktopLayout: 0,
+
     },
     mutations: {
         requestMenuData (state) {
@@ -205,6 +208,10 @@ export default new Vuex.Store({
         // notifyPop data
         setNotifyPopData (state, dat) {
             state.notifyPopData = dat
+        },
+        // change desktop layout
+        changeDesktopLayout (state, type) {
+            state.setDesktopLayout = type
         }
     },
     actions: {
@@ -271,6 +278,10 @@ export default new Vuex.Store({
                     context.commit('requestDesktopIconList')
                 })
             }
+        },
+        // change desktop layout
+        changeDesktopLayout (context, type) {
+            context.commit('changeDesktopLayout', type)
         }
     }
 })

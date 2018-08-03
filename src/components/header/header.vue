@@ -4,7 +4,10 @@
             <Logo></Logo>
             <MenuList></MenuList>
         </div>
-        <NotifyArea></NotifyArea>
+        <div class="header_right">
+            <ActionButtonArea></ActionButtonArea>
+            <NotifyArea></NotifyArea>
+        </div>
     </div>
 </template>
 
@@ -12,11 +15,13 @@
 import Logo from './logo'
 import MenuList from './menuList'
 import NotifyArea from './notifyArea'
+import ActionButtonArea from './actionButtonArea'
 export default {
     components: {
         Logo,
         MenuList,
-        NotifyArea
+        NotifyArea,
+        ActionButtonArea
     }
 }
 </script>
@@ -31,7 +36,7 @@ export default {
     padding: 0 6px;
     color: #666;
 }
-.header_left {
+.header_left, .header_right {
     display: flex;
 }
 </style>

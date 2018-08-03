@@ -57,11 +57,13 @@ export default {
         },
         submit () {
             if (this.$store.state.VModelSidebarPopArticleInputData) {
+                let timer = new Date()
                 let dat = {
                     'id': this.$store.state.windowEdit_id,
                     'contentType': this.$store.state.VModelSidebarPopArticleTypeData,
                     'h1': this.$store.state.VModelSidebarPopArticleInputData,
-                    'content': this.$store.state.VModelSidebarPopArticleTextareaData
+                    'content': this.$store.state.VModelSidebarPopArticleTextareaData,
+                    'date': timer.getFullYear() + '-' + (Number(timer.getMonth()) + 1) + '-' + timer.getDate() + ' week' + timer.getDay() + ' ' + timer.getHours() + ':' + timer.getMinutes() + ':' + timer.getSeconds()
                 }
                 this.$store.dispatch('submitNewArticle', dat)
                 return false

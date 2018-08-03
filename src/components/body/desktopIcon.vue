@@ -1,5 +1,10 @@
 <template>
-    <div class="desktopIcon_container" @click="addWindow(label,id)" :href="url">
+    <div v-if="this.$store.state.setDesktopLayout == 0" class="desktopIcon_container_list" @click="addWindow(label,id)" :href="url">
+        <img :src="img ? img : defaultImgUrl"/>
+        <span>{{label}}</span>
+        <span>{{date}}</span>
+    </div>
+    <div v-else-if="this.$store.state.setDesktopLayout == 1" class="desktopIcon_container" @click="addWindow(label,id)" :href="url">
         <img :src="img ? img : defaultImgUrl"/>
         <span>{{label}}</span>
     </div>
@@ -8,7 +13,7 @@
 <script>
 import defaultImg from "@/assets/tux.svg"
 export default {
-    props: ['label', 'img', 'url', 'id'],
+    props: ['label', 'img', 'url', 'id',  'date'],
     data () {
         return {
             defaultImgUrl: defaultImg
@@ -57,6 +62,35 @@ export default {
     box-shadow: 0 0 120px #113034 inset, 0 0 6px #489799;
     margin: 10px;
     cursor: pointer;
+}
+.desktopIcon_container_list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+.desktopIcon_container_list> img {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 39px;
+    height: 39px;
+    color: #B0B6B6;
+    outline: none;
+    text-decoration: none;
+    border-radius: 4px;
+    box-shadow: 0 0 120px #113034 inset, 0 0 6px #489799;
+    margin: 10px;
+    margin-bottom: 15px;
+    padding: 3px;
+    cursor: pointer;
+}
+.desktopIcon_container_list> span:nth-child(2) {
+    min-width: 130px;
+    margin-left: 11px;
+}
+.desktopIcon_container_list> span:nth-child(3) {
+    width: unset;
 }
 .desktopIcon_container:hover {
     animation: desktopIconShadow 1s infinite;

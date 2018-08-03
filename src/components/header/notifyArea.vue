@@ -1,7 +1,7 @@
 <template>
     <div class="notifyArea_container">
         <div class="notifyArea_num">
-            notice: <span>{{this.$store.state.notifyNum}}</span>
+            AllArticle: <span>{{this.$store.state.notifyNum ? this.$store.state.notifyNum : '0'}}</span>
         </div>
         <div class="notifyArea_timer" :title='day'>
             {{time}}

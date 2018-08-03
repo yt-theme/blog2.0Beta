@@ -1,6 +1,9 @@
 <template>
-    <div class="desktop_container">
-        <DesktopIcon v-for="i in this.$store.state.desktopIconList" :label="i.label" :img="i.img" :url="i.url" :id="i.id"></DesktopIcon>
+    <div class="desktop_container_list" v-if="this.$store.state.setDesktopLayout == 0">
+        <DesktopIcon v-for="i in this.$store.state.desktopIconList" :label="i.label" :img="i.img" :url="i.url" :id="i.id" :date="i.date"></DesktopIcon>
+    </div>
+    <div class="desktop_container" v-else-if="this.$store.state.setDesktopLayout == 1">
+        <DesktopIcon v-for="i in this.$store.state.desktopIconList" :label="i.label" :img="i.img" :url="i.url" :id="i.id" :date="i.date"></DesktopIcon>
     </div>
 </template>
 
@@ -21,6 +24,19 @@ export default {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
+    width: calc(90vw - 10px);
+    min-width: 900px;
+    height: calc(100vh - 53px);
+    border-radius: 4px;
+    background-color: rgba(176,182,182,0.3);
+    padding: 10px;
+    overflow: auto;
+}
+.desktop_container_list {
+    /* display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start; */
     width: calc(90vw - 10px);
     min-width: 900px;
     height: calc(100vh - 53px);
