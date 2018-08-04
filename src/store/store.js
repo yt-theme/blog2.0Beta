@@ -124,6 +124,9 @@ export default new Vuex.Store({
                 }
             }
         },
+        deleteAllWindow (state) {
+            state.windowItem = []
+        },
         toggleSidebarPop (state, bool) {
             // clear input
             // state.VModelSidebarPopArticleInputData = '',
@@ -139,6 +142,11 @@ export default new Vuex.Store({
             state.sidebarPopData = {'id': '', 'content': ['loading']}
             var params = new URLSearchParams()
             params.append('id',id)
+            if (id == 'num1') {
+                state.sidebarPopData.id = 'num1'
+                state.sidebarPopData = Object.assign({}, state.sidebarPopData)
+                return false                
+            }
             axios.post(reqUrl + 'getSidebarPopContent/', params).then((res)=> {
                 state.sidebarPopData = res.data
                 state.sidebarPopData = Object.assign({}, state.sidebarPopData)
@@ -230,6 +238,9 @@ export default new Vuex.Store({
         },
         deleteWindow (context,id) {
             context.commit('deleteWindow',id)
+        },
+        deleteAllWindow (context) {
+            context.commit('deleteAllWindow')
         },
         // sidebarPop show
         toggleSidebarPop (context, bool) {

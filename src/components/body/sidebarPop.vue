@@ -41,7 +41,7 @@
                             <button class="article_submit" @click="submit">Submit</button>
                         </div>
                     </div>
-                    <textarea class="article_main" placeholder="Your think" v-model="VModelSidebarPopArticleTextareaData"/>
+                    <textarea class="article_main" placeholder="Your think " v-model="VModelSidebarPopArticleTextareaData"/>
                 </div>
             </div>
         </div>
