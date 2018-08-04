@@ -155,6 +155,11 @@ export default new Vuex.Store({
                 state.sidebarPopData = Object.assign({}, state.sidebarPopData)
             })
         },
+        setSidebarPopEditPassword (state) {
+            axios.post(reqUrl + 'setSidebarPopEditPasswordCheck/').then((res)=> {
+                return false
+            })
+        },
         checkSidebarPopEditPassword (state, dat) {
             var params = new URLSearchParams()
             params.append('pwd', dat)
@@ -262,6 +267,9 @@ export default new Vuex.Store({
         },
         requestSidebarPopContent (context, id) {
             context.commit('requestSidebarPopContent', id)
+        },
+        setSidebarPopEditPassword (context) {
+            context.commit('setSidebarPopEditPassword')
         },
         checkSidebarPopEditPassword (context, dat) {
             context.commit('checkSidebarPopEditPassword', dat)

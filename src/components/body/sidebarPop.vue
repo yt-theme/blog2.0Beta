@@ -6,9 +6,11 @@
                 <div class="password_cover_container">
                     <div style="display:flex;justify-content: space-between;align-items: center">
                         <span>Input Password</span>
-                        <button @click="checkSidebarPopEditPassword">Confirm</button>
+                        <div>
+                            <button @click="setSidebarPopEditPassword" style="margin:0">Get key</button><button @click="checkSidebarPopEditPassword">Confirm</button>
+                        </div>
                     </div>
-                    <input v-model="setSidebarPopPwdInputData" type="password"/>
+                    <input v-model="setSidebarPopPwdInputData" type="password" :placeholder="passwdPlaceholder"/>
                 </div>
             </div>
             <template v-if="titleTop">
@@ -59,6 +61,11 @@
 <script>
 export default {
     props: ['title'],
+    data () {
+        return {
+            passwdPlaceholder: 'input key',
+        }
+    },
     methods: {
         closePop () {
             // sidebarPop show
@@ -66,7 +73,12 @@ export default {
             // clear edit id
             this.$store.dispatch('set_windowEdit_id', '')
         },
+        setSidebarPopEditPassword () {
+            this.$store.dispatch('setSidebarPopEditPassword')
+            this.passwdPlaceholder = 'key has sending'
+        },
         checkSidebarPopEditPassword () {
+            this.passwdPlaceholder = 'input key'
             let pwd = this.$store.state.sidebarPopPwdInputData
             this.$store.dispatch('checkSidebarPopEditPassword', pwd)
             this.$store.commit('clearSidebarPopPwdInputData')
@@ -288,11 +300,11 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 16em;
+    width: 359px;
     background-color: #113236;
     border-radius:4px;
     box-shadow: 0 0 8px #B0B6B6;
-    padding: 23px 11px;
+    padding: 23px;
 }
 .password_cover_container button {
     height: 2em;
@@ -303,6 +315,7 @@ export default {
     cursor: pointer;
     color: #113337;
     padding: 0 11px;
+    margin-left: 13px;
 }
 .password_cover_container> input {
     width: 100%;

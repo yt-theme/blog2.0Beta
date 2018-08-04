@@ -69,7 +69,7 @@ export default {
     line-height: 3;
     border-radius: 9px;
     box-shadow: 0 0 27px #B0B6B6 inset;
-    margin-bottom: 6px;
+    margin-bottom: 11px;
     cursor: pointer;
 }
 .sidebar_container> ul> li:hover {
