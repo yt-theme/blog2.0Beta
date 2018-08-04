@@ -1,22 +1,38 @@
 <template>
     <div v-if="this.$store.state.setDesktopLayout == 0" class="desktopIcon_container_list" @click="addWindow(label,id)" :href="url">
-        <img :src="img ? img : defaultImgUrl"/>
+        <img :src="
+            img == 'normal' ? defaultImg : 
+                img == 'note'  ? note :
+                    img == 'important' ? important :
+                        img == 'website' ? website : defaultImg
+        "/>
         <span>{{label}}</span>
         <span>{{date}}</span>
     </div>
     <div v-else-if="this.$store.state.setDesktopLayout == 1" class="desktopIcon_container" @click="addWindow(label,id)" :href="url" :title="label + ' @ ' + date">
-        <img :src="img ? img : defaultImgUrl"/>
+        <img :src="
+            img == 'normal' ? defaultImg : 
+                img == 'note'  ? note :
+                    img == 'important' ? important :
+                        img == 'website' ? website : defaultImg
+        "/>
         <span>{{label}}</span>
     </div>
 </template>
 
 <script>
 import defaultImg from "@/assets/tux.svg"
+import note from "@/assets/note.svg"
+import important from "@/assets/important.svg"
+import website from "@/assets/website.svg"
 export default {
     props: ['label', 'img', 'url', 'id',  'date'],
     data () {
         return {
-            defaultImgUrl: defaultImg
+            defaultImg: defaultImg,
+            note: note,
+            important: important,
+            website: website
         }
     },
     methods: {
@@ -68,21 +84,21 @@ export default {
     justify-content: flex-start;
     align-items: center;
     cursor: pointer;
+    margin-bottom: 15px;
 }
 .desktopIcon_container_list> img {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 39px;
-    height: 39px;
+    width: 33px;
+    height: 33px;
     color: #B0B6B6;
     outline: none;
     text-decoration: none;
     border-radius: 4px;
     box-shadow: 0 0 120px #113034 inset, 0 0 6px #489799;
     margin: 10px;
-    margin-bottom: 15px;
-    padding: 3px;
+    padding: 5px;
     cursor: pointer;
 }
 .desktopIcon_container_list> span {

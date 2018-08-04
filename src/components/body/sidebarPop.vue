@@ -33,11 +33,19 @@
                     <div class="article_header">
                         <input class="article_title" placeholder="Title" maxlength="14" v-model="VModelSidebarPopArticleInputData"/>
                         <div style="display:flex;align-items:center">
+                            IconLabel
+                            <select v-model="VModelSidebarPopArticleIconLabelData">
+                                <option value="normal" selected>normal</option>
+                                <option value="note">note</option>
+                                <option value="important">important</option>
+                                <option value="website">website</option>
+                            </select>
                             Type
                             <select v-model="VModelSidebarPopArticleTypeData">
                                 <option value="web" selected>web</option>
                                 <option value="txt">txt</option>
                             </select>
+                            --> &nbsp;
                             <button class="article_submit" @click="submit">Submit</button>
                         </div>
                     </div>
@@ -86,6 +94,7 @@ export default {
                     'id': this.$store.state.windowEdit_id,
                     'contentType': this.$store.state.VModelSidebarPopArticleTypeData,
                     'h1': this.$store.state.VModelSidebarPopArticleInputData,
+                    'img': this.$store.state.VModelSidebarPopArticleIconLabelData,
                     'content': this.$store.state.VModelSidebarPopArticleTextareaData,
                     'date': Y + '-' + M + '-' + D + ' week ' + week + ' ' + h + ':' + m + ':' + s
                 }
@@ -145,6 +154,14 @@ export default {
             },
             set (dat) {
                 this.$store.commit('VModelSidebarPopArticleTextareaData', dat)
+            }
+        },
+        VModelSidebarPopArticleIconLabelData: {
+            get () {
+                return this.$store.state.VModelSidebarPopArticleIconLabelData
+            },
+            set (dat) {
+                this.$store.commit('VModelSidebarPopArticleIconLabelData', dat)
             }
         },
         VModelSidebarPopArticleTypeData: {
@@ -255,7 +272,7 @@ export default {
 .article {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 2px);
 }
 .password_cover {
     position: absolute;
@@ -333,6 +350,7 @@ export default {
     height: 2em;
     outline: none;
     background-color: #489799;
+    text-shadow: 0 0 14px #B0B6B6;
     color: #113337;
     border: none;
     border-radius: 4px;

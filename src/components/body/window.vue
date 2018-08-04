@@ -9,7 +9,7 @@
               <div v-if="i.id == id">
                 <div style="display: flex;justify-content:space-between;align-items:center">
                   <span>documentID -- {{ i.id ? i.id : 'loading...' }}</span>
-                  <button class="button_edit" @click="articleToEdit('Edit -- ' + label + ' -- ' + i.id, i.id, i.data[0].h1, i.data[0].content, i.contentType)">Edit</button>
+                  <button class="button_edit" @click="articleToEdit('Edit -- ' + label + ' -- ' + i.id, i.id, i.data[0].h1, i.data[0].content, i.img, i.contentType)">Edit</button>
                 </div>
                 <hr/>
 <!-- type no1 -->
@@ -30,8 +30,7 @@
 </template>
 <script>
 export default {
-  name: 'ProjectTab',
-  props: ['label','id'],
+  props: ['label','id','img'],
   data () {
     return {
         zIndex: 99,
@@ -74,7 +73,7 @@ export default {
         // this.$store.commit('deleteWindow', this.id)
         this.$store.dispatch('deleteWindow', this.id)
     },
-    articleToEdit: function (title, id, h1, content,type) {
+    articleToEdit: function (title, id, h1, content, img, type) {
         this.$store.dispatch('setSidebarPoptitle', title)
         // set edit id
         if (id) {
@@ -86,6 +85,7 @@ export default {
         let dat = {
           'id': id,
           'h1': h1,
+          'img': img,
           'type': type,
           'content': content
         }

@@ -33,6 +33,8 @@ export default new Vuex.Store({
         VModelSidebarPopArticleInputData: '',
         // sidebarPop new article textarea
         VModelSidebarPopArticleTextareaData: '',
+        // sidebarPop new article icon
+        VModelSidebarPopArticleIconLabelData: 'normal',
         // sidebarPop new article type
         VModelSidebarPopArticleTypeData: 'web',
         // sidebarPop new article date
@@ -50,6 +52,7 @@ export default new Vuex.Store({
         clearSidebarPopData (state) {
             state.VModelSidebarPopArticleInputData = ''
             state.VModelSidebarPopArticleTextareaData = ''
+            state.VModelSidebarPopArticleIconLabelData = 'normal'
             state.VModelSidebarPopArticleTypeData = 'web'
         },
         requestMenuData (state) {
@@ -179,6 +182,7 @@ export default new Vuex.Store({
         addDataSidebarPopEditArticle (state, dat) {
             state.VModelSidebarPopArticleInputData = dat.h1
             state.VModelSidebarPopArticleTextareaData = dat.content
+            state.VModelSidebarPopArticleIconLabelData = dat.img            
             state.VModelSidebarPopArticleTypeData = dat.type
         },
         // edit id
@@ -196,6 +200,10 @@ export default new Vuex.Store({
         // sidebarPop vmodel new article type
         VModelSidebarPopArticleTypeData (state, dat) {
             state.VModelSidebarPopArticleTypeData = dat
+        },
+        // sidebarPop vmodel new article iconlabel
+        VModelSidebarPopArticleIconLabelData (state, dat) {
+            state.VModelSidebarPopArticleIconLabelData = dat
         },
         // sidebar vmode lnew article date
         // VModelSidebarPopArticleDate (state, dat) {
@@ -282,11 +290,13 @@ export default new Vuex.Store({
         submitNewArticle (context, dat) {
             let qs = require('qs')
             if (dat.id != '' || dat.id) {
+                console.log(dat)
                 axios.post(reqUrl + 'getSubmitEditArticle/', qs.stringify(dat)).then((res)=> {
                     context.commit('submitNewArticle', res.data.res)
                     context.commit('showNotifyPop')
                     context.commit('setNotifyPopData', 'success')
                     context.commit('requestDesktopIconList')
+                    context.commit('toggleSidebarPop', false)
                 })
             } else if (dat.id == '') {
                 axios.post(reqUrl + 'getSubmitNewArticle/', qs.stringify(dat)).then((res)=> {
@@ -294,6 +304,7 @@ export default new Vuex.Store({
                     context.commit('showNotifyPop')
                     context.commit('setNotifyPopData', 'success')
                     context.commit('requestDesktopIconList')
+                    context.commit('toggleSidebarPop', false)
                 })
             }
         },
