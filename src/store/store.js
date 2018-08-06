@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import axios from 'axios'
 import Vuex from 'vuex'
-let reqUrl = 'http://192.168.0.141:8000/'
+let IP = '192.168.0.141:8000/'
+let reqUrl = 'http://' + IP
+let socketUrl = 'ws://' + IP
 // NotifyPop timer
 var timer
 
@@ -47,6 +49,8 @@ export default new Vuex.Store({
         windowEdit_id: '',
         // change desktop layout
         setDesktopLayout: 1,
+        // weather dat
+        weather: '',
     },
     mutations: {
         clearSidebarPopData (state) {
@@ -240,6 +244,14 @@ export default new Vuex.Store({
         // sidebarPop history delete
         sidebarPopHistoryDelete (state, id) {
 
+        },
+        // socket sysMonitor
+        createSysMonitorWebSocket (state) {
+            console.log('socket running...')
+        },
+        // weather
+        getWeather (state, dat) {
+            state.weather = dat
         }
     },
     actions: {
@@ -332,6 +344,42 @@ export default new Vuex.Store({
                 context.commit('requestSidebarPopContent', 'num0')
                 context.commit('requestDesktopIconList')
             })
+        },
+        getWeather (context, dat) {
+            axios.post(reqUrl + 'getWeather/').then((res)=> {
+                let dat = res.data.res
+                context.commit('getWeather', dat)
+            })
+        },
+        // socket
+        createSysMonitorWebSocket (context) {
+            let socket = new WebSocket(socketUrl + 'socket_getSysMoniter/')
+
+            function fun_onopen () {
+                socket.send('hasLink')
+            }
+            function fun_onmessage (act) {
+                if (socket.readyState == WebSocket.OPEN) {
+                    let dat = act.data
+                    alert(dat)
+                }
+            }
+            function fun_onclose () {
+                onopen()
+            }
+            function fun_onerror (err) {
+                console.log('websocket Err-->', err)
+            }
+            window.onbeforeunload = function () {
+               socket.close()
+            }
+
+            socket.onopen = fun_onopen
+            socket.onmessage = fun_onmessage
+            socket.onclose = fun_onclose
+            socket.onerror = fun_onerror
+
+            context.commit('createSysMonitorWebSocket')
         }
     }
 })

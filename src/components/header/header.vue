@@ -5,6 +5,7 @@
             <MenuList></MenuList>
         </div>
         <div class="header_right">
+            <WebsocketSysMonitor></WebsocketSysMonitor>
             <ActionButtonArea></ActionButtonArea>
             <NotifyArea></NotifyArea>
         </div>
@@ -16,12 +17,14 @@ import Logo from './logo'
 import MenuList from './menuList'
 import NotifyArea from './notifyArea'
 import ActionButtonArea from './actionButtonArea'
+import WebsocketSysMonitor from '../websocket/websocket_sysMonitor'
 export default {
     components: {
         Logo,
         MenuList,
         NotifyArea,
-        ActionButtonArea
+        ActionButtonArea,
+        WebsocketSysMonitor
     }
 }
 </script>

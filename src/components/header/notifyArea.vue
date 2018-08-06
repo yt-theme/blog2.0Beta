@@ -1,5 +1,8 @@
 <template>
     <div class="notifyArea_container">
+        <div class="weather">
+            {{this.$store.state.weather ? this.$store.state.weather : ' -- '}}
+        </div>
         <div class="notifyArea_num">
             AllArticle: <span>{{this.$store.state.notifyNum ? this.$store.state.notifyNum : '0'}}</span>
         </div>
@@ -35,6 +38,9 @@ export default {
             let week = date.getDay()
             this.time = h + ' : ' + m + ' : ' + s
             this.day = year + ' - ' + month + ' - ' + days + ' week ' + week
+        },
+        weather() {
+            this.$store.dispatch('getWeather')
         }
     },
     mounted () {
@@ -42,6 +48,10 @@ export default {
             this.setTime
         ,1000)
         this.$store.commit('requestNotifyNumber')
+        this.weather()
+        setInterval(
+            this.weather
+        ,540000)
     }
 }
 </script>
@@ -50,7 +60,7 @@ export default {
 .notifyArea_container {
     display: flex;
 }
-.notifyArea_num, .notifyArea_timer {
+.weather, .notifyArea_num, .notifyArea_timer {
     background-color: #f9f8f7;
     border-radius: 4px;
     box-shadow: 0 0 0.5px #999;
