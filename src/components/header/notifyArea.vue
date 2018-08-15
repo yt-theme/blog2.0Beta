@@ -1,7 +1,7 @@
 <template>
     <div class="notifyArea_container">
-        <div class="weather">
-            {{this.$store.state.weather ? this.$store.state.weather : ' -- '}}
+        <div class="weather" :title="this.$store.state.weather[0] + ' ' + this.$store.state.weather[1]">
+            {{this.$store.state.weather ?  this.$store.state.weather[2] : ' -- '}}
         </div>
         <div class="notifyArea_num">
             AllArticle: <span>{{this.$store.state.notifyNum ? this.$store.state.notifyNum : '0'}}</span>
@@ -59,6 +59,7 @@ export default {
 <style scoped>
 .notifyArea_container {
     display: flex;
+    flex-wrap: wrap;
 }
 .weather, .notifyArea_num, .notifyArea_timer {
     background-color: #f9f8f7;

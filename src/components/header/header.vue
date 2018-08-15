@@ -4,6 +4,9 @@
             <Logo></Logo>
             <MenuList></MenuList>
         </div>
+        <div class="header_center">
+            <Search></Search>
+        </div>
         <div class="header_right">
             <WebsocketSysMonitor></WebsocketSysMonitor>
             <ActionButtonArea></ActionButtonArea>
@@ -18,13 +21,15 @@ import MenuList from './menuList'
 import NotifyArea from './notifyArea'
 import ActionButtonArea from './actionButtonArea'
 import WebsocketSysMonitor from '../websocket/websocket_sysMonitor'
+import Search from './search'
 export default {
     components: {
         Logo,
         MenuList,
         NotifyArea,
         ActionButtonArea,
-        WebsocketSysMonitor
+        WebsocketSysMonitor,
+        Search
     }
 }
 </script>
@@ -35,9 +40,11 @@ export default {
     justify-content: space-between;
     align-items: center;
     background-color: rgba(204, 209, 210, 0.999);
-    height: 33px;
+    min-height: 33px;
+    max-height: 51px;
     padding: 0 6px;
     color: #666;
+    overflow: auto;
 }
 .header_left, .header_right {
     display: flex;

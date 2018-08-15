@@ -51,6 +51,10 @@ export default new Vuex.Store({
         setDesktopLayout: 1,
         // weather dat
         weather: '',
+        // search input data
+        search_input_data: '',
+        // search result
+        search_result: '',
     },
     mutations: {
         clearSidebarPopData (state) {
@@ -252,6 +256,14 @@ export default new Vuex.Store({
         // weather
         getWeather (state, dat) {
             state.weather = dat
+        },
+        // search dat
+        change_search_input_data (state, dat) {
+            state.search_input_data = dat
+        },
+        // request search
+        request_search (state, dat) {
+            state.desktopIconList = dat.dat
         }
     },
     actions: {
@@ -317,6 +329,7 @@ export default new Vuex.Store({
                     context.commit('setNotifyPopData', 'success')
                     context.commit('requestDesktopIconList')
                     context.commit('toggleSidebarPop', false)
+                    context.commit('requestNotifyNumber')
                 })
             } else if (dat.id == '') {
                 axios.post(reqUrl + 'getSubmitNewArticle/', qs.stringify(dat)).then((res)=> {
@@ -325,6 +338,7 @@ export default new Vuex.Store({
                     context.commit('setNotifyPopData', 'success')
                     context.commit('requestDesktopIconList')
                     context.commit('toggleSidebarPop', false)
+                    context.commit('requestNotifyNumber')
                 })
             }
         },
@@ -343,6 +357,7 @@ export default new Vuex.Store({
                 context.commit('setSidebarPopSelectId', 'num0')
                 context.commit('requestSidebarPopContent', 'num0')
                 context.commit('requestDesktopIconList')
+                context.commit('requestNotifyNumber')
             })
         },
         getWeather (context, dat) {
@@ -380,6 +395,33 @@ export default new Vuex.Store({
             socket.onerror = fun_onerror
 
             context.commit('createSysMonitorWebSocket')
+        },
+        // search dat
+        change_search_input_data (context, dat) {
+            context.commit('change_search_input_data', dat)
+        },
+        // search resutl
+        request_search (context, dat) {
+            // var params = new URLSearchParams()
+            // params.append('dat', 001)
+            // axios.post(reqUrl + 'searchArticle/', params).then((res)=> {
+
+            // })
+
+            let qs = require('qs')
+            let obj = {
+                'dat': dat
+            }
+            axios.post(reqUrl + 'searchArticle/', qs.stringify(obj)).then((res)=> {
+                if (res.data.res != 'notin') {
+                    obj = {
+                        dat: res.data
+                    }
+                    context.commit('request_search', obj)
+                } else {
+                    context.commit('requestDesktopIconList')
+                }
+            })
         }
     }
 })

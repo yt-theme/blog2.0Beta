@@ -6,8 +6,10 @@
                 <div class="password_cover_container">
                     <div style="display:flex;justify-content: space-between;align-items: center">
                         <span>Input Password</span>
+                        <!-- get key -->
                         <div>
-                            <button @click="setSidebarPopEditPassword" style="margin:0">Get key</button><button @click="checkSidebarPopEditPassword">Confirm</button>
+                            <!-- <button @click="setSidebarPopEditPassword" style="margin:0">Get key</button> -->
+                            <button @click="checkSidebarPopEditPassword">Confirm</button>
                         </div>
                     </div>
                     <input v-model="setSidebarPopPwdInputData" type="password" :placeholder="passwdPlaceholder"/>
@@ -284,7 +286,7 @@ export default {
 .article {
     position: relative;
     width: 100%;
-    height: calc(100% - 2px);
+    height: calc(100% - 5px);
 }
 .password_cover {
     position: absolute;

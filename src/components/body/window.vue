@@ -117,7 +117,7 @@ export default {
   justify-content: center;
   padding-top: 33px;
   position: absolute;
-  left: 10%;
+  left: 10px;
   /* width: 12vw; */
   min-width: 600px;
   height: 50vh;
@@ -182,7 +182,7 @@ export default {
 .divBody {
   width: 100%;
   position: relative;
-  text-shadow: 0 0 6px #333;
+  text-shadow: 0 0 9px #333;
   padding: 0 6px;
   overflow: auto;
 }
