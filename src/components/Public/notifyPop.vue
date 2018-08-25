@@ -38,6 +38,7 @@ export default {
     background-color: #bb7570;
     padding: 11px;
     transition: all 0.4s;
+    z-index: 9999999999999999;
 }
 .notifyPop_containerActive {
     position: absolute;

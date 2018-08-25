@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import Vuex from 'vuex'
-let IP = '192.168.0.141:8000/'
+let IP = '176.122.143.231:8000/'
 let reqUrl = 'http://' + IP
 let socketUrl = 'ws://' + IP
 // NotifyPop timer
@@ -10,6 +10,7 @@ var timer
 Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
+        loginState: false,
         // header menu
         menuData:[],
         // notify number
@@ -51,12 +52,13 @@ export default new Vuex.Store({
         setDesktopLayout: 1,
         // weather dat
         weather: '',
-        // search input data
-        search_input_data: '',
         // search result
         search_result: '',
     },
     mutations: {
+        checkLoginState (state, dat) {
+            dat == true ? state.loginState = true : state.loginState = false
+        },
         clearSidebarPopData (state) {
             state.VModelSidebarPopArticleInputData = ''
             state.VModelSidebarPopArticleTextareaData = ''
@@ -171,6 +173,7 @@ export default new Vuex.Store({
         checkSidebarPopEditPassword (state, dat) {
             var params = new URLSearchParams()
             params.append('pwd', dat)
+            params.append('token', localStorage.token)
             axios.post(reqUrl + 'getSidebarPopEditPasswordCheck/', params).then((res)=> {
                 if (res.data.data == 'true') {
                     state.sidebarPopEditPasswordCheck = false
@@ -218,10 +221,7 @@ export default new Vuex.Store({
         VModelSidebarPopArticleIconLabelData (state, dat) {
             state.VModelSidebarPopArticleIconLabelData = dat
         },
-        // sidebar vmode lnew article date
-        // VModelSidebarPopArticleDate (state, dat) {
-        //     state.VModelSidebarPopArticleDate = dat
-        // },
+        // create
         submitNewArticle (state, dat) {
                 state.resultForNewArticle = dat
         },
@@ -257,16 +257,38 @@ export default new Vuex.Store({
         getWeather (state, dat) {
             state.weather = dat
         },
-        // search dat
-        change_search_input_data (state, dat) {
-            state.search_input_data = dat
-        },
         // request search
         request_search (state, dat) {
             state.desktopIconList = dat.dat
         }
     },
     actions: {
+        // check login
+        checkLoginState (context, dat) {
+            let qs = require('qs')
+            axios.post(reqUrl + 'checkLogin/',qs.stringify(dat)).then((res)=> {
+                if (res.data.res == 'pass') {
+                    context.commit('checkLoginState', true)
+                } else {
+                    context.commit('checkLoginState', false)
+                }
+            })
+        },
+        // login
+        login (context, dat) {
+            let qs = require('qs')
+            axios.post(reqUrl + 'login/',qs.stringify(dat)).then((res)=> {
+                if (res.data.res.state == 'ok') {
+                    window.localStorage.setItem('token', res.data.res.token)
+                    window.localStorage.setItem('name', res.data.res.name)
+                    context.commit('checkLoginState', true)
+                } else {
+                    context.commit('showNotifyPop')
+                    context.commit('setNotifyPopData', 'name && pwd err')
+                    context.commit('checkLoginState', false)
+                }
+            })
+        },
         addWindow (context,obj) {
             context.commit('addWindow',obj)
         },
@@ -319,10 +341,14 @@ export default new Vuex.Store({
         setNotifyPopData (context, dat) {
             context.commit('setNotifyPopData', dat)
         },
+        // new
         submitNewArticle (context, dat) {
             let qs = require('qs')
+            let token = window.localStorage.getItem('token')
+            let name = window.localStorage.getItem('name')
+            dat['token'] = token
+            dat['name'] = name
             if (dat.id != '' || dat.id) {
-                console.log(dat)
                 axios.post(reqUrl + 'getSubmitEditArticle/', qs.stringify(dat)).then((res)=> {
                     context.commit('submitNewArticle', res.data.res)
                     context.commit('showNotifyPop')
@@ -347,9 +373,14 @@ export default new Vuex.Store({
             context.commit('changeDesktopLayout', type)
         },
         // sidebarPop history delete
+        // delete
         sidebarPopHistoryDelete (context, id) {
             var params = new URLSearchParams()
+            let token = window.localStorage.getItem('token')
+            let name = window.localStorage.getItem('name')
             params.append('id',id)
+            params.append('token', token)
+            params.append('name', name)
             axios.post(reqUrl + 'getDeleteSidebarPopHistory/', params).then((res)=> {
                 context.commit('sidebarPopHistoryDelete', id)
                 context.commit('showNotifyPop')
@@ -388,29 +419,18 @@ export default new Vuex.Store({
             window.onbeforeunload = function () {
                socket.close()
             }
-
             socket.onopen = fun_onopen
             socket.onmessage = fun_onmessage
             socket.onclose = fun_onclose
             socket.onerror = fun_onerror
-
             context.commit('createSysMonitorWebSocket')
-        },
-        // search dat
-        change_search_input_data (context, dat) {
-            context.commit('change_search_input_data', dat)
         },
         // search resutl
         request_search (context, dat) {
-            // var params = new URLSearchParams()
-            // params.append('dat', 001)
-            // axios.post(reqUrl + 'searchArticle/', params).then((res)=> {
-
-            // })
-
             let qs = require('qs')
             let obj = {
-                'dat': dat
+                'dat': dat.input,
+                'type': dat.type
             }
             axios.post(reqUrl + 'searchArticle/', qs.stringify(obj)).then((res)=> {
                 if (res.data.res != 'notin') {

@@ -15,12 +15,13 @@
 <!-- type no1 -->
                 <template v-if="i.contentType == 'web'">
                   <h3>{{i.data[0].h1}}</h3>
-                  <div v-html="i.data[0].content"></div>
+                  <div class="v_html" v-html="i.data[0].content"></div>
                 </template>
 <!-- type no2 -->
                 <template v-if="i.contentType == 'txt'">
                   <h1>{{i.data[0].h1}}</h1>
-                  <p>{{i.data[0].content}}</p>
+                  <!-- <p>{{i.data[0].content}}</p> -->
+                  <textarea v-text="i.data[0].content"></textarea>
                 </template>
                 
               </div>
@@ -191,12 +192,12 @@ export default {
   margin: 6px 0;
   box-shadow: 0 0 1px #1C3539;
 }
-.searchRes {
+/* .searchRes {
   float: left;
   width: 279px;
   height: auto;
   max-height: 200px;
-  background: url("../../assets/bgi.png") center center;
+  background: url("../../assets/bgi.jpg") center center;
   overflow: auto;
   border-radius: 4px;
 }
@@ -210,6 +211,19 @@ export default {
   cursor: pointer;
   border-bottom: 2px solid #489799;
   border-radius: 4px;
+} */
+.v_html {
+  min-width: 100%;
+  height: 100%;
+}
+.divBody textarea {
+  min-width: 1280px;
+  height: 370px;
+  background-color: rgba(0, 0, 0, 0);
+  color: #f1f2f1;
+  text-shadow: 0 0 14px #333;
+  border: none;
+  resize: none;
 }
 .player {
   margin: auto;

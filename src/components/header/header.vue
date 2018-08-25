@@ -2,7 +2,7 @@
     <div class="header_container">
         <div class="header_left">
             <Logo></Logo>
-            <MenuList></MenuList>
+            <!-- <MenuList></MenuList> -->
         </div>
         <div class="header_center">
             <Search></Search>
