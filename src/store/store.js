@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import Vuex from 'vuex'
-let IP = '176.122.143.231:8000/'
+let IP = '192.168.0.142:8000/'
 let reqUrl = 'http://' + IP
 let socketUrl = 'ws://' + IP
 // NotifyPop timer
@@ -54,6 +54,14 @@ export default new Vuex.Store({
         weather: '',
         // search result
         search_result: '',
+        // fileList dat
+        fileList: [
+            {
+                name: '001',
+                base64: '',
+                date: '0.0.0'
+            }
+        ],
     },
     mutations: {
         checkLoginState (state, dat) {
@@ -80,7 +88,16 @@ export default new Vuex.Store({
             })
         },
         requestDesktopIconList (state) {
-            axios.post(reqUrl + 'getDesktopIconList/').then((res)=> {
+            let username = window.localStorage.getItem('name')
+            let usertoken = window.localStorage.getItem('token')
+
+            let qs = require('qs')
+            let obj = {
+                'name': username,
+                'token': usertoken
+            }
+
+            axios.post(reqUrl + 'getDesktopIconList/', qs.stringify(obj)).then((res)=> {
                 state.desktopIconList = res.data
                 state.VModelSidebarPopArticleInputData = ''
                 state.VModelSidebarPopArticleTextareaData = ''
@@ -153,14 +170,20 @@ export default new Vuex.Store({
         },
         requestSidebarPopContent (state, id) {
             state.sidebarPopData = {'id': '', 'content': ['loading']}
-            var params = new URLSearchParams()
-            params.append('id',id)
+            let qs = require('qs')
+            let token = window.localStorage.getItem('token')
+            let name = window.localStorage.getItem('name')
+            let obj = {
+                'id': id,
+                'token': token,
+                'name': name
+            }
             if (id == 'num1') {
                 state.sidebarPopData.id = 'num1'
                 state.sidebarPopData = Object.assign({}, state.sidebarPopData)
                 return false                
             }
-            axios.post(reqUrl + 'getSidebarPopContent/', params).then((res)=> {
+            axios.post(reqUrl + 'getSidebarPopContent/', qs.stringify(obj)).then((res)=> {
                 state.sidebarPopData = res.data
                 state.sidebarPopData = Object.assign({}, state.sidebarPopData)
             })
@@ -251,7 +274,7 @@ export default new Vuex.Store({
         },
         // socket sysMonitor
         createSysMonitorWebSocket (state) {
-            console.log('socket running...')
+            // console.log('socket running...')
         },
         // weather
         getWeather (state, dat) {
@@ -260,6 +283,14 @@ export default new Vuex.Store({
         // request search
         request_search (state, dat) {
             state.desktopIconList = dat.dat
+        },
+        // upload
+        sureUploadFile (state, dat) {
+
+        },
+        // file list
+        fileList (state, dat) {
+            state.fileList = dat
         }
     },
     actions: {
@@ -282,6 +313,7 @@ export default new Vuex.Store({
                     window.localStorage.setItem('token', res.data.res.token)
                     window.localStorage.setItem('name', res.data.res.name)
                     context.commit('checkLoginState', true)
+                    context.commit('requestDesktopIconList')
                 } else {
                     context.commit('showNotifyPop')
                     context.commit('setNotifyPopData', 'name && pwd err')
@@ -414,7 +446,7 @@ export default new Vuex.Store({
                 onopen()
             }
             function fun_onerror (err) {
-                console.log('websocket Err-->', err)
+                // console.log('websocket Err-->', err)
             }
             window.onbeforeunload = function () {
                socket.close()
@@ -430,7 +462,9 @@ export default new Vuex.Store({
             let qs = require('qs')
             let obj = {
                 'dat': dat.input,
-                'type': dat.type
+                'type': dat.type,
+                'name': window.localStorage.getItem('name'),
+                'token': window.localStorage.getItem('token')
             }
             axios.post(reqUrl + 'searchArticle/', qs.stringify(obj)).then((res)=> {
                 if (res.data.res != 'notin') {
@@ -442,6 +476,39 @@ export default new Vuex.Store({
                     context.commit('requestDesktopIconList')
                 }
             })
+        },
+        // upload
+        sureUploadFile (context, dat) {
+            let uploadData = new FormData()
+            uploadData.append("upFile", dat.selectedFile)
+            uploadData.append("name", dat.name)
+            uploadData.append("author", dat.author)
+            let headers = {headers: {"Content-Type": "multipart/form-data"}}
+            context.commit('showNotifyPop')
+            context.commit('setNotifyPopData', 'doing')
+            axios.post(reqUrl + "uploadFile/", uploadData, headers).then((res) => {
+                // console.log(res)
+                if (res.data.res.state == "ok") {
+                    context.commit('showNotifyPop')
+                    context.commit('setNotifyPopData', 'success')
+                    let obj = {
+                        base64: res.base64
+                    }
+                    context.commit('fileList', obj)
+                } else {
+                    context.commit('showNotifyPop')
+                    context.commit('setNotifyPopData', 'faild')
+                }
+            })
+        },
+        // show file list
+        fileList (context, dat) {
+            // axios.post(reqUrl + "resImg/").then((res) => {
+            //     if (res.data) {
+                  
+            //     }
+            // })
+            context.commit('fileList', obj)
         }
     }
 })

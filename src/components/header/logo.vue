@@ -19,6 +19,7 @@ export default {
             window.localStorage.setItem('token', '')
             window.localStorage.setItem('name', '')
             this.$store.commit('checkLoginState', false)
+            location.reload(true)
         }
     }
 }

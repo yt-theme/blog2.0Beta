@@ -25,7 +25,7 @@ export default {
         let storage = window.localStorage
         let checkName  = storage.key('token')
         let checkToken = storage.key('name')
-        console.log(checkName, checkToken)
+        // console.log(checkName, checkToken)
         // storage.setItem('token', '123456789012')
         // storage.setItem('name', 'admin')
         let dat = {}

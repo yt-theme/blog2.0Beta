@@ -10,6 +10,7 @@
         <div class="sidebarIcon_list">
             <SidebarIcon v-for="i in this.$store.state.sidebarIconList" :label="i.label" :img="i.img" :url="i.url" ></SidebarIcon>
         </div>
+        <SidebarFileUploadList></SidebarFileUploadList>
         <SidebarPop></SidebarPop>
     </div>
 </template>
@@ -17,10 +18,12 @@
 <script>
 import SidebarIcon from './sidebarIcon'
 import SidebarPop from './sidebarPop'
+import SidebarFileUploadList from './sidebarFileUploadList'
 export default {
     components: {
         SidebarIcon,
-        SidebarPop
+        SidebarPop,
+        SidebarFileUploadList
     },
     methods: {
         showPopAction (id) {
