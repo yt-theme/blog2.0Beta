@@ -55,13 +55,9 @@ export default new Vuex.Store({
         // search result
         search_result: '',
         // fileList dat
-        fileList: [
-            {
-                name: '001',
-                base64: '',
-                date: '0.0.0'
-            }
-        ],
+        fileList: {
+            url: '',
+        },
     },
     mutations: {
         checkLoginState (state, dat) {
@@ -290,7 +286,17 @@ export default new Vuex.Store({
         },
         // file list
         fileList (state, dat) {
-            state.fileList = dat
+            let qs = require('qs')
+            axios.post(reqUrl + "getImgList/", qs.stringify(dat)).then((res) => {
+                if (res.data) {
+                    let dat = res.data.res.list
+                    let tmpArr = []
+                    for (var i in dat) {
+                        tmpArr.push(reqUrl.slice(0,reqUrl.length-1) + dat[i])
+                    }
+                    state.fileList.url = tmpArr
+                }
+            })
         }
     },
     actions: {
@@ -314,6 +320,11 @@ export default new Vuex.Store({
                     window.localStorage.setItem('name', res.data.res.name)
                     context.commit('checkLoginState', true)
                     context.commit('requestDesktopIconList')
+                    let info = {
+                        author: window.localStorage.getItem('name'),
+                        token: window.localStorage.getItem('token')
+                    }
+                    context.commit('fileList', info)
                 } else {
                     context.commit('showNotifyPop')
                     context.commit('setNotifyPopData', 'name && pwd err')
@@ -495,6 +506,9 @@ export default new Vuex.Store({
                         base64: res.base64
                     }
                     context.commit('fileList', obj)
+                } else if (res.data.res.state == "exist") {
+                    context.commit('showNotifyPop')
+                    context.commit('setNotifyPopData', 'fileName is exist')
                 } else {
                     context.commit('showNotifyPop')
                     context.commit('setNotifyPopData', 'faild')
@@ -503,12 +517,7 @@ export default new Vuex.Store({
         },
         // show file list
         fileList (context, dat) {
-            // axios.post(reqUrl + "resImg/").then((res) => {
-            //     if (res.data) {
-                  
-            //     }
-            // })
-            context.commit('fileList', obj)
+                    context.commit('fileList', dat)
         }
     }
 })

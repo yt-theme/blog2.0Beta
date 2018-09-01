@@ -8,16 +8,20 @@
                 <div class="inputFile_belowA"><span>Select--></span><span>File Name:<br/>{{selectedFile.name}}</span></div>
                 <input class="inputSelector" type="file" ref="sidebarFileUpload" @change="selectFile()" name="upFile"/>
             </div>
-            <!-- img -->
+            <!-- preview -->
             <img class="imgSelectShow" ref="sidebarUploadShowImg" src=""/>
             <!-- sure upload -->
             <input @click="sureUploadFile" v-if="selectedFile" type="button" class="uploadBtn" value="Upload">
         </div>
-        <div class="fileList">
-            <div v-for="i in this.$store.state.fileList">
-                <!-- <img src="data:image/png;base64," +  i.base64/> -->
+        <!-- click img set text -->
+        <input class="getUrl" placeholder="Select Img Url" :value="clickedUrl" v-if="clickedUrl"/>
+        <div class="fileList" style="calc(width:100%);min-height:199px;max-height:36vh;overflow:auto;">
+            <div v-for="i in this.$store.state.fileList.url" style="float:left;">
+                <!-- {{i}} -->
+                <img :src="i" title="click copy file link" @click="copyLink(i)" @contextmenu="rightKeyOpe($event, i)"/>
             </div>
         </div>
+
     </div>
 </template>
 
@@ -31,6 +35,9 @@ export default {
             sidebarFileUploadList_btn: 'sidebarFileUploadList_btn',
             // select
             selectedFile: '',
+
+            // click img list
+            clickedUrl: ''
         }
     },
     methods: {
@@ -71,10 +78,22 @@ export default {
             }
             this.$store.dispatch('sureUploadFile', dat)
             // this.$store.dispatch('fileList')
+        },
+        copyLink (lin) {
+            this.clickedUrl = lin
+        },
+        // handle right
+        rightKeyOpe (e, s) {
+            e.preventDefault()
+            window.open(s)
         }
     },
-    created () {
-
+    mounted () {
+        let dat = {
+            author: window.localStorage.getItem('name'),
+            token: window.localStorage.getItem('token')
+        }
+        this.$store.dispatch('fileList', dat)
     }
 }
 </script>
@@ -133,7 +152,7 @@ hr {
 .inputFile_belowA> span {
     display: flex;
     width: 100%;
-    background-color: #366E72;
+    background-color: rgb(21, 143, 151);
     border-radius: 4px;
     padding: 3px 9px;
 }
@@ -164,5 +183,29 @@ hr {
     outline: none;
     cursor: pointer;
     margin: 9px 0;
+}
+.getUrl {
+    width: 100%;
+    height: 27px;
+    box-shadow: 0 0 9px #B0B6B6;
+    color: #113337;
+    border: none;
+    border-radius: 4px;
+    padding: 0 9px;
+}
+.fileList {
+    margin-top: 9px;
+}
+.fileList img {
+    display: inline;
+    width: 65px;
+    box-shadow: 0 0 9px #B0B6B6;
+    margin: 3px;
+}
+.popMenu {
+    width: 100px;
+}
+.popMenu> ul {
+    list-style: none;
 }
 </style>
